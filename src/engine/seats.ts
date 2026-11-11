@@ -257,9 +257,9 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
       gauges.push({ rect: { x: (W - gW) / 2, y: topY, w: gW, h: gH }, facing: 180 });
     }
 
-    // HUD: 공용 정보 칸 (같이하기에서 게임정보창을 불공격 게이지만큼 길게 사이즈 조정)
+    // HUD: 공용 정보 칸 (같이하기에서 게임정보창을 불공격 게이지만큼 길게 및 세로로 30% 늘림)
     const hudW = coop ? gW : 76;
-    const hudH = coop ? 34 : 26;
+    const hudH = coop ? 46 : 26;
     const hud0: Rect = coop
       ? { x: (W - gW) / 2, y: botY - hudH - 8, w: hudW, h: hudH }
       : { x: 10, y: centerCy + 6, w: hudW, h: hudH };

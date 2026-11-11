@@ -310,41 +310,6 @@ export function Setup({ kind, onStart, onBack, records = EMPTY_RECORDS }: Props)
               </div>
             </fieldset>
           )}
-
-          {Array.from({ length: count }, (_, i) => (
-            <div className="field field--tab player player--card" key={i}>
-              <Tab icon="player">{count === 1 ? '플레이어' : `플레이어 ${i + 1}`}</Tab>
-              {teams && <span className="team-tag">{teams[i] === 0 ? 'A' : 'B'}</span>}
-              <fieldset className="colors" aria-label={`플레이어 ${i + 1} 색`}>
-                {(Object.keys(SEAT_COLORS) as SeatColor[]).map(c => (
-                  <label key={c} className={colors[i] === c ? 'swatch swatch--on' : 'swatch'} style={{ background: SEAT_COLORS[c] }}>
-                    <input
-                      type="radio"
-                      name={`color-${i}`}
-                      aria-label={COLOR_NAMES[c]}
-                      checked={colors[i] === c}
-                      disabled={colors.some((other, j) => j !== i && other === c)}
-                      onChange={() => setColors(cs => cs.map((x, j) => (j === i ? c : x)))}
-                    />
-                  </label>
-                ))}
-              </fieldset>
-              {!stageMode && (
-                <label className="range" style={{ '--fill': `${((clampSize(sizes[i], sliderMax) - MIN_CARD_SIZE) / Math.max(1, sliderMax - MIN_CARD_SIZE)) * 100}%` } as CSSProperties}>
-                  <Icon name="star" />글자 수 <b>{clampSize(sizes[i], sliderMax)}</b>
-                  <input
-                    type="range"
-                    aria-label={`플레이어 ${i + 1} 글자 수`}
-                    min={MIN_CARD_SIZE}
-                    max={sliderMax}
-                    step={1}
-                    value={clampSize(sizes[i], sliderMax)}
-                    onChange={e => setSizes(ss => ss.map((v, j) => (j === i ? Number(e.target.value) : v)))}
-                  />
-                </label>
-              )}
-            </div>
-          ))}
         </section>
 
         <section className="setup__col" aria-label="규칙">

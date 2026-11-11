@@ -25,7 +25,7 @@ test('같이하기 → 같이하기 설정 화면', async () => {
   render(<App />);
   fireEvent.click(screen.getByRole('button', { name: '같이하기' }));
   expect(screen.getByRole('heading', { name: '같이하기' })).toBeInTheDocument();
-  await waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).not.toHaveAttribute('max', '3'));
+  await waitFor(() => expect(screen.getByRole('button', { name: '시작' })).toBeInTheDocument());
 });
 test('게임 기록이 localStorage에 저장된다', () => {
   localStorage.clear();
@@ -56,6 +56,6 @@ test('저장소에 접근할 수 없어도 설정 화면이 열린다', async ()
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: '혼자 하기' }));
     expect(screen.getByRole('heading', { name: '혼자 하기' })).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).not.toHaveAttribute('max', '3'));
+    expect(screen.getByRole('button', { name: '시작' })).toBeInTheDocument();
   } finally { spy.mockRestore(); }
 });

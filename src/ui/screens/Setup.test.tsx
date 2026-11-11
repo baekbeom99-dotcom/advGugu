@@ -7,14 +7,9 @@ import { EMPTY_RECORDS } from '../../services/records';
 
 const SET_ID = createSymbolSet({ kind: 'consonant', includeDouble: false }).id;
 
-/** 글자 세트를 다 불러와 슬라이더 최대값이 정해질 때까지 기다린다 */
-const waitLoaded = () =>
-  waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).not.toHaveAttribute('max', '3'));
-
-test('자음 14개 세트에서는 카드당 글자 수 최대값이 7이고, 부족하다는 안내는 보여주지 않는다', async () => {
+test('자음 14개 세트 선택 시 부족하다는 안내는 보여주지 않는다', async () => {
   render(<Setup kind="versus" onStart={() => {}} onBack={() => {}} />);
   fireEvent.click(screen.getByRole('radio', { name: '자음' }));
-  await waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).toHaveAttribute('max', '7'));
   expect(screen.queryByText(/심볼이 부족해서/)).not.toBeInTheDocument();
 });
 
@@ -38,28 +33,16 @@ test('혼자 하기는 1명으로 시작한다', async () => {
   expect(onStart.mock.calls[0][0].players).toHaveLength(1);
 });
 
-test('같은 자리 색은 두 명이 고를 수 없다', async () => {
-  render(<Setup kind="versus" onStart={() => {}} onBack={() => {}} />);
-  await waitLoaded();
-  expect(within(screen.getByRole('group', { name: '플레이어 2 색' })).getByRole('radio', { name: '핑크' })).toBeDisabled();
-});
-
-const setRange = (el: HTMLElement, n: number) => fireEvent.change(el, { target: { value: String(n) } });
 const startWith = async (onStart: ReturnType<typeof vi.fn>) => {
   fireEvent.click(screen.getByRole('button', { name: '시작' }));
   await waitFor(() => expect(onStart).toHaveBeenCalled());
   return onStart.mock.calls[0][0];
 };
 
-test('플레이어마다 심볼 수를 따로 정한다', async () => {
-  const onStart = vi.fn();
-  render(<Setup kind="versus" onStart={onStart} onBack={() => {}} />);
-  fireEvent.click(screen.getByRole('radio', { name: '알파벳' }));
-  await waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 2 글자 수' })).toHaveAttribute('max', '8'));
-  setRange(screen.getByRole('slider', { name: '플레이어 1 글자 수' }), 3);
-  setRange(screen.getByRole('slider', { name: '플레이어 2 글자 수' }), 8);
-  const cfg = await startWith(onStart);
-  expect(cfg.players.map((p: PlayerConfig) => p.cardSize)).toEqual([3, 8]);
+test('플레이어 설정 영역이 삭제되어 색상 및 글자 수 슬라이더가 노출되지 않는다', () => {
+  render(<Setup kind="versus" onStart={() => {}} onBack={() => {}} />);
+  expect(screen.queryByRole('group', { name: /플레이어.*색/ })).not.toBeInTheDocument();
+  expect(screen.queryByRole('slider')).not.toBeInTheDocument();
 });
 
 test('폭탄 돌리기를 고르면 시작 카드와 넘길 사람 설정이 나온다', async () => {
@@ -100,20 +83,17 @@ test('시작 버튼을 빠르게 두 번 눌러도 한 번만 시작한다', asy
 test('같이하기(협동)는 2인으로 진행되고 대결 방식이 없다', async () => {
   const onStart = vi.fn();
   render(<Setup kind="coop" onStart={onStart} onBack={() => {}} />);
-  await waitLoaded();
   expect(screen.getByRole('heading', { name: '같이하기' })).toBeInTheDocument();
   expect(screen.queryByRole('group', { name: '인원' })).not.toBeInTheDocument();
   expect(screen.queryByRole('group', { name: '대결 방식' })).not.toBeInTheDocument();
   expect(await startWith(onStart)).toMatchObject({ mode: 'coop', teams: null, rules: { combo: false, finalRound: false, items: false } });
 });
 
-test('혼자 하기: 도전은 열린 단계까지 고를 수 있고 심볼 수 슬라이더가 없다', async () => {
+test('혼자 하기: 도전은 열린 단계까지 고를 수 있다', async () => {
   const onStart = vi.fn();
   render(<Setup kind="solo" onStart={onStart} onBack={() => {}} records={{ ...EMPTY_RECORDS, unlocked: { [SET_ID]: 3 } }} />);
-  await waitLoaded();
   fireEvent.click(screen.getByRole('radio', { name: '도전' }));
   expect(within(screen.getByRole('group', { name: '단계' })).getAllByRole('radio')).toHaveLength(3);
-  expect(screen.queryByRole('slider', { name: '플레이어 1 글자 수' })).not.toBeInTheDocument();
   expect(await startWith(onStart)).toMatchObject({ mode: 'soloStage', stage: 3, rules: { items: true } });
 });
 
@@ -146,10 +126,4 @@ test('초성 고르기 팝업은 닫기 버튼으로 닫힌다', async () => {
   fireEvent.click(screen.getByRole('radio', { name: '글자' }));
   fireEvent.click(screen.getByRole('button', { name: '닫기' }));
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-});
-
-test('플레이어 설정에는 색상과 글자 수 선택기가 있다', () => {
-  render(<Setup kind="versus" onStart={() => {}} onBack={() => {}} />);
-  expect(screen.getByRole('group', { name: '플레이어 1 색' })).toBeInTheDocument();
-  expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).toBeInTheDocument();
 });

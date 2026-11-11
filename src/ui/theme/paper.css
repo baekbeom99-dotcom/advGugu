@@ -679,26 +679,26 @@ body::after {
 .mode-card__art svg { width: 76%; max-height: 90%; filter: drop-shadow(0 4px 4px rgba(70, 45, 25, .25)); }
 .mode-card__title { flex: none; font-weight: 400; font-size: min(3.6vh, 28px); line-height: 1.2; white-space: nowrap; }
 .mode-card__desc { font-size: min(2vh, 15px); line-height: 1.3; color: #7a5c48; text-align: center; flex: none; height: 2.6em; overflow: hidden; word-break: keep-all; }
-/* 혼자 하기 거북이 뒤통수: 머리가 위로 훨씬 많이 뻗어나오며 뻗어나오는 정도가 불규칙·랜덤한 리듬 */
+/* 혼자 하기 거북이 뒤통수: 머리가 위로 3배 더 많이 뻗어나오며 뻗어나오는 정도가 불규칙·랜덤한 리듬 */
 .turtle-back__head { transform-box: fill-box; transform-origin: 50% 100%; animation: head-sway 6.4s ease-in-out infinite; }
 @keyframes head-sway {
-  0% { transform: translate(0, 8%) scaleY(0.88) rotate(0deg); }
-  14% { transform: translate(-3%, -28%) scaleY(1.22) rotate(-7deg); }
-  26% { transform: translate(1%, 2%) scaleY(0.92) rotate(2deg); }
-  40% { transform: translate(5%, -52%) scaleY(1.45) rotate(11deg); }
-  54% { transform: translate(-2%, -15%) scaleY(1.05) rotate(-4deg); }
-  68% { transform: translate(-5%, -68%) scaleY(1.62) rotate(-13deg); }
-  80% { transform: translate(2%, -6%) scaleY(0.98) rotate(3deg); }
-  90% { transform: translate(4%, -42%) scaleY(1.32) rotate(8deg); }
-  100% { transform: translate(0, 8%) scaleY(0.88) rotate(0deg); }
+  0% { transform: translate(0, 0) scaleY(1) rotate(0deg); }
+  14% { transform: translate(-3%, -20%) scaleY(1.7) rotate(-7deg); }
+  26% { transform: translate(1%, 0) scaleY(1.1) rotate(2deg); }
+  40% { transform: translate(4%, -45%) scaleY(2.3) rotate(9deg); }
+  54% { transform: translate(-2%, -10%) scaleY(1.3) rotate(-3deg); }
+  68% { transform: translate(-5%, -75%) scaleY(2.8) rotate(-11deg); }
+  80% { transform: translate(2%, -5%) scaleY(1.2) rotate(3deg); }
+  90% { transform: translate(3%, -35%) scaleY(2.0) rotate(7deg); }
+  100% { transform: translate(0, 0) scaleY(1) rotate(0deg); }
 }
 /* 맞히면 뒤통수와 목이 아주 높게 쑥 솟구치며 신나게 환호 */
 .turtle-back__head.is-cheer { animation: head-cheer 500ms cubic-bezier(0.18, 0.89, 0.32, 1.28); }
 @keyframes head-cheer {
   0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  30% { transform: translate(-4%, -72%) scale(1.22) scaleY(1.5) rotate(-10deg); }
-  60% { transform: translate(4%, -85%) scale(1.28) scaleY(1.65) rotate(10deg); }
-  80% { transform: translate(-1%, -35%) scale(1.08) rotate(-3deg); }
+  30% { transform: translate(-3%, -60%) scale(1.2) scaleY(2.4) rotate(-8deg); }
+  60% { transform: translate(3%, -85%) scale(1.3) scaleY(3.0) rotate(8deg); }
+  80% { transform: translate(-1%, -30%) scale(1.1) scaleY(1.6) rotate(-2deg); }
   100% { transform: translate(0, 0) scale(1) rotate(0deg); }
 }
 
@@ -850,7 +850,7 @@ body::after {
   flex-direction: column;
   width: 100%;
   max-width: 280px;
-  gap: 20px;
+  gap: 36px;
   margin: 24px auto 0;
 }
 .screen--center > .actions .btn {
@@ -1304,40 +1304,40 @@ body::after {
     z-index: 2;
   }
 
-  /* 모드 선택 카드 3개: 타이틀과 최하단과의 정가운데로 이동 */
+  /* 모드 선택 카드 3개: 타이틀과 최하단과의 정가운데로 이동, 카드 간격 확보 및 세로 20% 확대 */
   .title__modes {
     position: absolute;
     left: 50%;
     top: 64% !important;
     bottom: auto !important;
     translate: -50% -50% !important;
-    width: min(94vw, 390px);
+    width: min(94vw, 410px);
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
+    gap: 12px !important;
     z-index: 3;
     padding: 0;
   }
   .mode-card {
     flex-direction: column !important;
     width: 100% !important;
-    height: clamp(140px, 20vh, 180px) !important;
-    padding: 10px 6px 12px !important;
-    gap: 8px !important;
+    height: clamp(168px, 24vh, 216px) !important;
+    padding: 14px 8px 16px !important;
+    gap: 0 !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    border-radius: 20px !important;
-    box-shadow: 0 0 0 3px var(--paper-2), 0 0 0 6px var(--paper-3), 0 8px 14px rgba(30, 70, 40, .2) !important;
+    justify-content: space-between !important;
+    border-radius: 22px !important;
+    box-shadow: 0 0 0 2px var(--paper-2), 0 3px 0 1px var(--paper-3), 0 8px 16px rgba(30, 70, 40, .16) !important;
     box-sizing: border-box !important;
     text-align: center !important;
   }
   .mode-card__art {
-    width: min(60px, 85%) !important;
-    height: min(60px, 85%) !important;
+    width: min(66px, 80%) !important;
+    height: min(66px, 80%) !important;
     aspect-ratio: 1 !important;
     flex: none !important;
-    margin: 4px auto 0 !important;
-    border-radius: 14px !important;
+    margin: 2px auto 0 !important;
+    border-radius: 16px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1350,24 +1350,25 @@ body::after {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: center !important;
-    gap: 4px !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
     width: 100% !important;
     text-align: center !important;
     flex: 1 !important;
+    margin-top: 6px !important;
   }
   .mode-card__title {
-    font-size: clamp(14px, 3.8vw, 17px) !important;
+    font-size: clamp(15px, 4.2vw, 18px) !important;
     font-weight: bold !important;
-    line-height: 1.2 !important;
+    line-height: 1.25 !important;
     margin: 0 !important;
     white-space: nowrap !important;
     text-align: center !important;
     color: var(--ink) !important;
   }
   .mode-card__desc {
-    font-size: clamp(10px, 2.7vw, 12px) !important;
-    line-height: 1.25 !important;
+    font-size: clamp(11px, 2.9vw, 13px) !important;
+    line-height: 1.35 !important;
     color: #7a5c48 !important;
     margin: 0 !important;
     text-align: center !important;
@@ -1377,6 +1378,7 @@ body::after {
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     width: 100% !important;
+    min-height: 2.7em !important;
   }
 
   /* 2. 설정 화면 */
@@ -1744,25 +1746,37 @@ body::after {
     white-space: nowrap !important;
   }
 
-  /* 협동: 단계 및 하트 줄바꿈 방지 */
+  /* 협동: 정보창 세로 30% 확장에 맞춘 레이아웃 */
+  .coop {
+    padding: 4px 8px !important;
+    gap: 4px !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-evenly !important;
+  }
   .coop__head {
     display: flex !important;
-    gap: 6px !important;
+    gap: 8px !important;
     align-items: center !important;
     white-space: nowrap !important;
     width: 100% !important;
   }
   .coop__stage {
     white-space: nowrap !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-weight: bold !important;
     flex: none !important;
   }
   .coop__hearts {
     white-space: nowrap !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
     letter-spacing: -1px !important;
     flex: none !important;
+  }
+  .coop__mission {
+    font-size: 13.5px !important;
+    line-height: 1.25 !important;
   }
 
   /* 3. 인게임 화면: 상단 HUD 및 나가기 버튼 */
@@ -1862,7 +1876,7 @@ body::after {
     flex-direction: column !important;
     width: 100% !important;
     max-width: 280px !important;
-    gap: 20px !important;
+    gap: 36px !important;
     margin: 20px auto 0 !important;
     flex-shrink: 0 !important;
   }
