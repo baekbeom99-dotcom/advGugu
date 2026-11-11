@@ -499,7 +499,14 @@ export function Game({ config, symbols, onOver, best = null, onExit }: Props) {
       >
         나가기
       </button>
-      <div className="game__fullscreen" style={{ left: table.exit.x - table.exit.h - 14, top: table.exit.y, width: table.exit.h, height: table.exit.h }}>
+      <div
+        className="game__fullscreen"
+        style={
+          table.seats.length === 2 && H >= W
+            ? { left: table.exit.x + (table.exit.w - table.exit.h) / 2, top: table.exit.y - table.exit.h - 10, width: table.exit.h, height: table.exit.h }
+            : { left: table.exit.x - table.exit.h - 12, top: table.exit.y, width: table.exit.h, height: table.exit.h }
+        }
+      >
         <FullscreenButton />
       </div>
       {confirmExit && (

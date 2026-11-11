@@ -211,13 +211,13 @@ function soloCoopTable(W: number, H: number, screen: Rect): TableGeom {
 function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPortrait: boolean): TableGeom {
   if (isPortrait) {
     // 세로 화면 (Portrait) 3단 수직 구조
-    const centerR = coop ? Math.min(W * 0.25, H * 0.12) : Math.min(W * 0.27, H * 0.13);
+    const centerR = coop ? Math.min(W * 0.22, H * 0.11) : Math.min(W * 0.22, H * 0.11);
     const centerCy = H / 2;
     const center: Ellipse = { cx: W / 2, cy: centerCy, rx: centerR, ry: centerR };
 
     // 좌석 타원 반지름: 세로 3등분 고려
     const seatRx = W * 0.46;
-    const seatRy = H * 0.24;
+    const seatRy = H * 0.23;
 
     // P1 (하단, 0도)
     const p1Center = { cx: W / 2, cy: H };
@@ -227,20 +227,20 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
     const p2Center = { cx: W / 2, cy: 0 };
     const p2Ellipse: Ellipse = { ...p2Center, rx: seatRx, ry: seatRy };
 
-    const badgeW = 92;
-    const badgeH = 32;
+    const badgeW = 88;
+    const badgeH = 30;
 
     // 배지와 콤보/아이템 버튼 배치
     // P1: 하단 좌석 위쪽 테두리 부근
-    const p1Badge: Rect = { x: 12, y: H - seatRy - badgeH - 6, w: badgeW, h: badgeH };
-    const p1Extras: Rect = { x: W - 12 - 104, y: H - seatRy - badgeH - 6, w: 104, h: badgeH };
+    const p1Badge: Rect = { x: 14, y: H - seatRy - badgeH - 10, w: badgeW, h: badgeH };
+    const p1Extras: Rect = { x: W - 14 - 96, y: H - seatRy - badgeH - 10, w: 96, h: badgeH };
 
     // P2: 상단 좌석 아래쪽 테두리 부근 (180도 회전 고려)
-    const p2Badge: Rect = { x: W - 12 - badgeW, y: seatRy + 6, w: badgeW, h: badgeH };
-    const p2Extras: Rect = { x: 12, y: seatRy + 6, w: 104, h: badgeH };
+    const p2Badge: Rect = { x: W - 14 - badgeW, y: seatRy + 10, w: badgeW, h: badgeH };
+    const p2Extras: Rect = { x: 14, y: seatRy + 10, w: 96, h: badgeH };
 
     // HUD: 중앙 카드 좌측 빈 공간 (상/하로 나누어 각 플레이어 시선에 맞춤)
-    const hudW = 84;
+    const hudW = 76;
     const hudH = 26;
     const hud0: Rect = { x: 10, y: centerCy + 6, w: hudW, h: hudH };
     const hud1: Rect = { x: 10, y: centerCy - 32, w: hudW, h: hudH };
@@ -248,14 +248,14 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
     // 협동 불 게이지
     const gauges: TableGeom['gauges'] = [];
     if (coop) {
-      const gW = W * 0.8;
-      const gH = 16;
+      const gW = W * 0.76;
+      const gH = 14;
       gauges.push({ rect: { x: (W - gW) / 2, y: centerCy + centerR + 8, w: gW, h: gH }, facing: 0 });
       gauges.push({ rect: { x: (W - gW) / 2, y: centerCy - centerR - 8 - gH, w: gW, h: gH }, facing: 180 });
     }
 
     // 나가기 버튼: 중앙 우측 테두리
-    const exit: Rect = { x: W - EXIT_W - 10, y: centerCy - EXIT_H / 2, w: EXIT_W, h: EXIT_H };
+    const exit: Rect = { x: W - EXIT_W - 8, y: centerCy - EXIT_H / 2, w: EXIT_W, h: EXIT_H };
 
     return {
       center,

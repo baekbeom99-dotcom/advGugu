@@ -121,18 +121,22 @@ export function Home({ onPick, onCollection }: { onPick: (kind: SetupKind) => vo
       </svg>
       <PaperTurtle />
 
-      {onCollection && <button className="btn title__collection" onClick={onCollection}>수집함</button>}
-      <div className="title__tools">
-        <button className="btn" onClick={() => setHelp(true)}>사용 방법</button>
-        <FullscreenButton />
-      </div>
+      <header className="title__header">
+        {onCollection ? <button className="btn title__collection" onClick={onCollection}>수집함</button> : <div />}
+        <div className="title__tools">
+          <button className="btn" onClick={() => setHelp(true)}>사용 방법</button>
+          <FullscreenButton />
+        </div>
+      </header>
 
       <nav className="title__modes" aria-label="모드 고르기">
         {MODES.map(m => (
           <button key={m.kind} className="mode-card" aria-label={m.title} onClick={() => onPick(m.kind)}>
             <span className="mode-card__art" style={paperStack(SEAT_COLORS[m.color])}><ModeIcon kind={m.kind} /></span>
-            <b className="mode-card__title">{m.title}</b>
-            <small className="mode-card__desc">{m.desc}</small>
+            <span className="mode-card__text">
+              <b className="mode-card__title">{m.title}</b>
+              <small className="mode-card__desc">{m.desc}</small>
+            </span>
           </button>
         ))}
       </nav>

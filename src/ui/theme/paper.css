@@ -1085,6 +1085,26 @@ body::after {
 .setup:not(.setup--dense) .setup__line--rules { flex-wrap: wrap; row-gap: 6px; }
 .setup:not(.setup--dense) .setup__line--rules > .setup__label { flex: 0 0 100%; }
 
+/* 홈 화면 헤더 (좌: 수집함, 우: 사용 방법 & 전체화면) */
+.title__header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(16px, env(safe-area-inset-top)) 24px 0;
+  pointer-events: none;
+}
+.title__header > * {
+  pointer-events: auto;
+}
+.mode-card__text {
+  display: contents;
+}
+
 /* ---------- 2026-11-11 모바일 세로 화면(Portrait) 전면 재배치 ---------- */
 @media (max-width: 768px), (max-aspect-ratio: 1/1) {
   /* 1. 홈 / 타이틀 화면 */
@@ -1094,49 +1114,46 @@ body::after {
     height: 100%;
     overflow: hidden;
   }
+  .title__header {
+    padding: max(12px, env(safe-area-inset-top)) 14px 0 !important;
+  }
   .title__collection {
-    position: absolute;
-    left: 14px;
-    top: max(14px, env(safe-area-inset-top));
-    z-index: 10;
-    font-size: 15px;
-    padding: 7px 16px;
-    border-radius: 999px;
+    position: static !important;
+    font-size: 14px !important;
+    padding: 6px 14px !important;
+    border-radius: 999px !important;
   }
   .title__tools {
-    position: absolute;
-    right: 14px;
-    top: max(14px, env(safe-area-inset-top));
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    position: static !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
   }
   .title__tools .btn {
-    font-size: 15px;
-    padding: 7px 16px;
-    border-radius: 999px;
+    font-size: 14px !important;
+    padding: 6px 14px !important;
+    border-radius: 999px !important;
   }
   .title__tools .fullscreen-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 34px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .title__tools .fullscreen-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 17px !important;
+    height: 17px !important;
   }
 
-  /* 해와 타이틀: 상단 버튼과 절대 겹치지 않게 top: 27%에 위치 */
+  /* 해와 타이틀: 상단 헤더 버튼과 넉넉히 떨어지도록 top: 33%에 위치 */
   .title__sun {
     position: absolute;
     left: 50%;
-    top: 27%;
-    width: min(60vw, 230px);
+    top: 33%;
+    width: min(52vw, 195px);
     aspect-ratio: 1;
     translate: -50% -50%;
     z-index: 1;
@@ -1144,9 +1161,9 @@ body::after {
   .title__name {
     position: absolute;
     left: 50%;
-    top: 27%;
+    top: 33%;
     translate: -50% -50%;
-    font-size: clamp(32px, 9vw, 46px);
+    font-size: clamp(26px, 8vw, 38px);
     line-height: 0.95;
     z-index: 2;
     text-align: center;
@@ -1155,68 +1172,77 @@ body::after {
   .title__turtle {
     position: absolute;
     left: 8%;
-    top: 41%;
-    width: min(20vw, 84px);
+    top: 46%;
+    width: min(18vw, 74px);
     z-index: 2;
   }
 
-  /* 모드 선택 카드 3개: 화면 하단에 넉넉하게 안착 */
+  /* 모드 선택 카드 3개: 세로 스택 가로형 카드 */
   .title__modes {
     position: absolute;
     left: 50%;
     bottom: max(16px, env(safe-area-inset-bottom));
     translate: -50% 0;
-    width: calc(100% - 20px);
-    max-width: 420px;
+    width: min(92vw, 360px);
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 10px;
     z-index: 3;
     padding: 0;
   }
   .mode-card {
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    height: clamp(180px, 27vh, 225px);
-    padding: 12px 6px 14px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
+    flex-direction: row !important;
+    width: 100% !important;
+    height: 68px !important;
+    padding: 8px 14px !important;
+    gap: 14px !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    border-radius: 18px !important;
+    box-shadow: 0 0 0 3px var(--paper-2), 0 0 0 6px var(--paper-3), 0 6px 12px rgba(30, 70, 40, .2) !important;
     box-sizing: border-box;
   }
   .mode-card__art {
-    width: calc(100% - 10px);
-    aspect-ratio: 1.1;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    flex: 1 1 auto;
+    width: 46px !important;
+    height: 46px !important;
+    aspect-ratio: 1 !important;
+    flex: none !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .mode-card__art svg {
-    width: 72%;
-    max-height: 85%;
+    width: 75% !important;
+    max-height: 75% !important;
+  }
+  .mode-card__text {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
   }
   .mode-card__title {
-    font-size: clamp(15px, 4.2vw, 19px);
-    font-weight: bold;
-    white-space: nowrap;
-    margin: 2px 0 0;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
   }
   .mode-card__desc {
-    font-size: 11px;
-    line-height: 1.25;
-    height: 2.6em;
-    text-align: center;
-    word-break: keep-all;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    color: #7a5c48 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+    text-align: left !important;
   }
 
   /* 2. 설정 화면 */
@@ -1260,7 +1286,7 @@ body::after {
     vertical-align: middle;
   }
   .setup__back, .setup__start {
-    font-size: 15px !important;
+    font-size: 14px !important;
     padding: 7px 14px !important;
     border-radius: 999px !important;
     white-space: nowrap !important;
@@ -1295,10 +1321,27 @@ body::after {
     gap: 12px !important;
     box-sizing: border-box !important;
   }
+  /* 탭(리본)이 첫 줄 버튼을 덮지 않도록 상단 여백 56px 확보 */
+  .setup .field--tab,
+  .setup--solo .setup__col > .field.field--tab {
+    padding: 56px 14px 14px !important;
+    position: relative !important;
+  }
+  .setup .field--tab > legend,
+  .setup .player--single > .setup__tab {
+    position: absolute !important;
+    left: 10px !important;
+    top: 8px !important;
+    z-index: 5 !important;
+    margin: 0 !important;
+    height: 34px !important;
+    font-size: 15px !important;
+    padding: 0 34px 0 12px !important;
+  }
   .setup--solo .field > :not(legend):not(.setup__tab) {
     flex: none !important;
     min-height: auto !important;
-    padding: 6px 0 !important;
+    padding: 8px 0 !important;
     border-top: 1px solid #f0e3cb !important;
     display: flex !important;
     align-items: center !important;
@@ -1323,6 +1366,7 @@ body::after {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    text-align: center !important;
   }
   .setup .toggles {
     display: flex !important;
@@ -1348,9 +1392,10 @@ body::after {
     display: flex !important;
     flex-direction: column !important;
     gap: 12px !important;
-    padding: 14px 12px !important;
+    padding: 56px 14px 14px !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    position: relative !important;
   }
   .setup .player .input,
   .setup--solo .player--single > .input {
@@ -1361,6 +1406,7 @@ body::after {
     padding: 8px 14px 8px 38px !important;
     box-sizing: border-box !important;
     border-radius: 999px !important;
+    margin-top: 2px !important;
   }
   .setup .colors,
   .setup--solo .field.player--single > .colors {
@@ -1412,10 +1458,22 @@ body::after {
   }
   .solo {
     gap: 2px !important;
-    padding: 4px 8px !important;
+    padding: 4px 6px !important;
+    height: 100% !important;
+    justify-content: space-between !important;
   }
   .solo__time, .solo__score {
-    font-size: 18px !important;
+    font-size: 17px !important;
+  }
+  .solo__slot {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .solo__slot .item-btn {
+    font-size: 20px !important;
+  }
+  .solo__item-label {
+    font-size: 13px !important;
   }
   .hud {
     border-radius: 14px !important;
@@ -1436,10 +1494,19 @@ body::after {
   .big-result {
     font-size: clamp(22px, 6.5vw, 30px);
   }
-  .btn--big {
-    font-size: 22px;
-    padding: 14px 28px;
-    border-radius: 999px;
+  .screen--center .actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 300px !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+  }
+  .screen--center .actions .btn {
+    width: 100% !important;
+    font-size: 19px !important;
+    padding: 13px 20px !important;
+    border-radius: 999px !important;
   }
   .ranking {
     width: 100%;
