@@ -10,7 +10,7 @@ export const SKY_MARGIN = 0.03;
  * 혼자 하기 거북이 뒤통수(엄지손가락 모양 기둥). 자리 타원 반지름 단위:
  * 가로 반폭 halfWidth, 꼭대기는 등껍질 아래 끝에서 top배 높이.
  */
-export const TURTLE_HEAD = { halfWidth: 0.36, top: 1.3 } as const;
+export const TURTLE_HEAD = { halfWidth: 0.36, top: 2.2 } as const;
 
 export type SkyBody = 'sun' | 'moon';
 /** t: 0 왼쪽 중간(뜰 때) → 0.5 위 가운데 → 1 오른쪽 중간(질 때) */
