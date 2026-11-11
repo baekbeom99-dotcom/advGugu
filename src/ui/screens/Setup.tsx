@@ -11,8 +11,8 @@ import { ALL_RULES, NO_RULES, type BombConfig, type GameConfig, type ModeId, typ
 export type SetupKind = 'solo' | 'versus' | 'coop';
 type Method = Extract<ModeId, 'score' | 'bomb'>;
 
-const TITLES: Record<SetupKind, string> = { solo: '혼자 하기', versus: '같이 하기', coop: '협동' };
-const COUNTS: Record<SetupKind, number[]> = { solo: [1], versus: [2], coop: [1, 2] };
+const TITLES: Record<SetupKind, string> = { solo: '혼자 하기', versus: '대결하기', coop: '같이하기' };
+const COUNTS: Record<SetupKind, number[]> = { solo: [1], versus: [2], coop: [2] };
 const DEFAULT_COUNT: Record<SetupKind, number> = { solo: 1, versus: 2, coop: 2 };
 const COLOR_NAMES: Record<SeatColor, string> = { pink: '핑크', sky: '하늘', yellow: '노랑', lime: '연두', purple: '보라' };
 const METHOD_NAMES: Record<Method, string> = { score: '점수제', bomb: '폭탄 돌리기' };
@@ -262,11 +262,16 @@ export function Setup({ kind, onStart, onBack, records = EMPTY_RECORDS }: Props)
       <header className="setup__bar">
         <div className="setup__bar-side">
           <button className="btn setup__back" onClick={onBack}><Icon name="home" />처음으로</button>
-          <FullscreenButton />
         </div>
         <h1 className="setup__title"><Laurel />{TITLES[kind]}<Laurel flip /></h1>
-        <div className="setup__bar-side setup__bar-side--end">{startButton}</div>
+        <div className="setup__bar-side setup__bar-side--end">
+          <FullscreenButton />
+        </div>
       </header>
+
+      <div className="setup__start-bar">
+        {startButton}
+      </div>
 
       <div className="setup__body">
         <section className="setup__col" aria-label="사람">
@@ -307,14 +312,13 @@ export function Setup({ kind, onStart, onBack, records = EMPTY_RECORDS }: Props)
           )}
 
           {Array.from({ length: count }, (_, i) => (
-            <div className={count === 1 ? 'field field--tab player player--single' : 'field player'} key={i}>
-              {count === 1 && <Tab icon="player">플레이어</Tab>}
+            <div className="field field--tab player player--card" key={i}>
+              <Tab icon="player">{count === 1 ? '플레이어' : `플레이어 ${i + 1}`}</Tab>
               {teams && <span className="team-tag">{teams[i] === 0 ? 'A' : 'B'}</span>}
               <input
                 className="input"
                 aria-label={`플레이어 ${i + 1} 이름`}
                 maxLength={NAME_MAX}
-                style={{ width: `${nameWidthEm(names[i])}em` }}
                 value={names[i]}
                 onChange={e => setNames(ns => ns.map((n, j) => (j === i ? e.target.value : n)))}
               />
@@ -404,7 +408,6 @@ export function Setup({ kind, onStart, onBack, records = EMPTY_RECORDS }: Props)
                 </>
               )}
               <fieldset className="toggles setup__line setup__line--rules" aria-label="덧붙는 요소">
-                <span className="setup__label"><Icon name="plus" />덧붙는 요소</span>
                 {(Object.keys(RULE_NAMES) as (keyof Rules)[]).map(r => (
                   <Check key={r} label={RULE_NAMES[r]} checked={rules[r]} onChange={v => setRules(rs => ({ ...rs, [r]: v }))} />
                 ))}

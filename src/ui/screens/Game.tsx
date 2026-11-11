@@ -406,7 +406,7 @@ export function Game({ config, symbols, onOver, best = null, onExit }: Props) {
           correctSymbol={freeze?.player === i ? freeze.symbol : hits.get(i) ?? null}
           onTap={symbol => tap(i, symbol)}
           streak={rules.combo ? state.players[i].streak : 0}
-          item={rules.items && !isSolo ? state.players[i].item : null}
+          item={rules.items ? state.players[i].item : null}
           onUseItem={() => controller.dispatch({ type: 'USE_ITEM', player: i })}
           team={config.teams?.[i] ?? null}
           hintSymbol={state.players[i].hintRound === round.index ? round.answers[i] : null}
@@ -421,7 +421,7 @@ export function Game({ config, symbols, onOver, best = null, onExit }: Props) {
         />
       ))}
       {coop && table.gauges.map((g, i) => (
-        <FireGauge key={i} coop={coop} names={names} rect={g.rect} facing={g.facing} solo={soloCoop} />
+        <FireGauge key={i} coop={coop} names={names} rect={g.rect} facing={g.facing} solo={soloCoop} message={message} />
       ))}
       {table.hud.map((h, i) => (
         <Hud key={i} rect={h.rect} facing={h.facing} tall={isCoop}>

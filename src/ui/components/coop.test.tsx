@@ -53,10 +53,9 @@ test('혼자 할 때 불 공격 중에는 방어하는 중이라고 알린다', 
   expect(screen.getByText('방어하는 중')).toBeInTheDocument();
   expect(screen.queryByText(/구하기/)).not.toBeInTheDocument();
 });
-test('상황 문구를 띠로 보여주고, 불 게이지가 위에 있으면 그만큼 더 띄운다', () => {
-  render(<CoopPanel coop={base} message="준호를 구했어요!" bannerLift={50} />);
+test('안내 문구는 불 공격 게이지 자리에 메시지로 표시되고 게이지는 비활성화된다', () => {
+  render(<FireGauge coop={base} names={['민지', '준호']} rect={gaugeRect} facing={0} message="준호를 구했어요!" />);
   expect(screen.getByRole('status')).toHaveTextContent('준호를 구했어요!');
-  expect(screen.getByRole('status')).toHaveStyle({ marginBottom: '66px' });
 });
 test('폭탄 돌리기는 점수 뒤에 손에 든 카드를 작은 카드 그림으로 보여준다', () => {
   render(<SeatView {...baseSeatProps} score={3} cards={3} showName namePath="M0 0 A1 1 0 0 1 10 0" />);

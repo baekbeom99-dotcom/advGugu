@@ -206,7 +206,6 @@ test('협동: 라운드가 안 바뀌는 정답에도 노란 정답 강조가 �
 test('서바이벌: 맞히면 판정과 점수가 정보 칸에 나온다', () => {
   const cfg = testConfig({ mode: 'soloSurvival', players: [testConfig().players[0]] });
   render(<Game config={cfg} symbols={symbols} onOver={() => {}} best={20} />);
-  expect(screen.getByText('최고 20점')).toBeInTheDocument();
   tapSeat(0, createGame(cfg, pool, MODES).round.answers[0]);
   expect(screen.getByText('Perfect')).toBeInTheDocument();
   expect(screen.getByText('3점')).toBeInTheDocument();

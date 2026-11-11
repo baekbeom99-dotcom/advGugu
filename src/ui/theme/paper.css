@@ -637,20 +637,24 @@ body::after {
 .mode-card__art svg { width: 76%; max-height: 90%; filter: drop-shadow(0 4px 4px rgba(70, 45, 25, .25)); }
 .mode-card__title { flex: none; font-weight: 400; font-size: min(3.6vh, 28px); line-height: 1.2; white-space: nowrap; }
 .mode-card__desc { font-size: min(2vh, 15px); line-height: 1.3; color: #7a5c48; text-align: center; flex: none; height: 2.6em; overflow: hidden; word-break: keep-all; }
-/* 혼자 하기 거북이 뒤통수만 천천히 갸웃거린다 (목 아래쪽이 축) */
-.turtle-back__head { transform-box: fill-box; transform-origin: 50% 100%; animation: head-sway 3.2s ease-in-out infinite; }
+/* 혼자 하기 거북이 뒤통수: 움직임 폭 4배, 랜덤한 리듬, 좌우 횡이동 */
+.turtle-back__head { transform-box: fill-box; transform-origin: 50% 100%; animation: head-sway 4s ease-in-out infinite; }
 @keyframes head-sway {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  25% { transform: rotate(-4deg) translateY(-1.5%); }
-  75% { transform: rotate(4deg) translateY(-1.5%); }
+  0%, 100% { transform: rotate(0deg) translate(0, 0); }
+  16% { transform: rotate(-15deg) translate(-5%, -8%); }
+  33% { transform: rotate(9deg) translate(3%, -3%); }
+  52% { transform: rotate(-16deg) translate(-6%, -10%); }
+  68% { transform: rotate(14deg) translate(5%, -7%); }
+  84% { transform: rotate(-6deg) translate(-2%, -4%); }
 }
-/* 맞히면 뒤통수가 들썩인다 */
-.turtle-back__head.is-cheer { animation: head-cheer 400ms ease-out; }
+/* 맞히면 뒤통수가 4배 폭으로 쑥 올라오며 환호 */
+.turtle-back__head.is-cheer { animation: head-cheer 450ms ease-out; }
 @keyframes head-cheer {
-  0% { transform: translateY(0); }
-  35% { transform: translateY(-14%); }
-  60% { transform: translateY(-4%); }
-  100% { transform: translateY(0); }
+  0% { transform: scale(1) translate(0, 0) rotate(0deg); }
+  25% { transform: scale(1.15) translate(-4%, -42%) rotate(-10deg); }
+  50% { transform: scale(1.22) translate(4%, -50%) rotate(10deg); }
+  75% { transform: scale(1.08) translate(-2%, -18%) rotate(-4deg); }
+  100% { transform: scale(1) translate(0, 0) rotate(0deg); }
 }
 
 /* ---------- 정보 칸 촘촘하게 (2026-11-10): 줄 간격과 여백을 줄인다 ---------- */
@@ -815,6 +819,23 @@ body::after {
 .fire-gauge--fill .fire-gauge__bar > i { border-radius: 0; opacity: .75; }
 .fire-gauge--fill .fire-gauge__label, .fire-gauge--fill .fire-gauge__time { position: relative; z-index: 1; }
 
+/* 안내 메시지가 불 공격 게이지 자리에서 깔끔하게 표시됨 */
+.fire-gauge--message {
+  background: linear-gradient(180deg, #fbe392, #f5be38) !important;
+  box-shadow: 0 0 0 3px #d9a73a, 0 4px 10px rgba(60, 35, 15, 0.25) !important;
+  color: #3e2615 !important;
+  justify-content: center !important;
+  padding: 0 16px !important;
+}
+.fire-gauge__message-text {
+  font-size: clamp(13px, 3.8vw, 16px) !important;
+  font-weight: bold !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  color: #3e2615 !important;
+}
+
 /* 혼자 하는 몬스터 사냥 정보 칸: 단계와 하트가 윗줄, 체력 막대가 아랫줄 */
 .coop--solo .coop__head { flex-wrap: wrap; justify-content: space-between; row-gap: 5px; }
 .coop--solo .coop__head .meter { order: 3; flex: 0 0 100%; }
@@ -956,6 +977,17 @@ body::after {
 .setup__title { display: inline-flex; align-items: center; justify-content: center; gap: 14px; font-size: 44px; line-height: 1; color: #4a2f1c; }
 .setup__laurel { width: 30px; height: 44px; color: #d9b45a; }
 .setup__laurel--flip { transform: scaleX(-1); }
+.setup__start-bar {
+  display: flex;
+  width: 100%;
+  padding: 4px 6px;
+  box-sizing: border-box;
+}
+.setup__start-bar .setup__start {
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+}
 .setup__back, .setup__start, .setup__bar .fullscreen-btn { border: 0; }
 .setup__back, .setup__bar .fullscreen-btn { background: linear-gradient(180deg, #fffdf8, #f5ead6); box-shadow: 0 0 0 2px #e7d6b8, 0 4px 0 1px #dcc8a4, 0 8px 10px var(--shadow); color: #4a2f1c; }
 .setup__back { padding: 10px 26px 10px 20px; font-size: 20px; }
@@ -1292,11 +1324,30 @@ body::after {
     height: 24px;
     vertical-align: middle;
   }
-  .setup__back, .setup__start {
+  .setup__back {
     font-size: 14px !important;
     padding: 7px 14px !important;
     border-radius: 999px !important;
     white-space: nowrap !important;
+  }
+  .setup__start-bar {
+    width: 100% !important;
+    padding: 2px 0 6px !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .setup__start-bar .setup__start {
+    width: 100% !important;
+    height: 48px !important;
+    font-size: 19px !important;
+    font-weight: bold !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
   }
   .setup__body {
     display: flex !important;
@@ -1418,6 +1469,7 @@ body::after {
     justify-content: center !important;
   }
   .setup .player,
+  .setup .player--card,
   .setup--solo .player--single {
     display: flex !important;
     flex-direction: column !important;
@@ -1428,18 +1480,22 @@ body::after {
     position: relative !important;
   }
   .setup .player .input,
+  .setup .player--card > .input,
   .setup--solo .player--single > .input {
     width: 100% !important;
     max-width: 100% !important;
+    height: 44px !important;
     min-height: 44px !important;
     font-size: 17px !important;
-    padding: 8px 14px 8px 16px !important;
+    text-align: center !important;
+    padding: 0 16px !important;
     box-sizing: border-box !important;
     border-radius: 999px !important;
     border: 2px solid #e0cdb0 !important;
     background: #ffffff !important;
     color: #4a2f1c !important;
-    margin-top: 2px !important;
+    margin: 0 !important;
+    line-height: 44px !important;
   }
   .setup .colors,
   .setup--solo .field.player--single > .colors {
@@ -1500,12 +1556,87 @@ body::after {
   .setup .switch {
     font-size: 15px !important;
     gap: 8px !important;
+    cursor: pointer !important;
   }
   .setup .switch__track {
     min-width: 46px !important;
     width: 46px !important;
     height: 26px !important;
     border-radius: 13px !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    padding: 0 !important;
+  }
+  .setup .switch__track > i {
+    position: absolute !important;
+    width: 20px !important;
+    height: 20px !important;
+    top: 3px !important;
+    left: 3px !important;
+    border-radius: 50% !important;
+    transition: left 150ms ease !important;
+  }
+  .setup .switch--on .switch__track > i {
+    left: 23px !important;
+  }
+
+  /* 중앙 카드 회전: 라벨 아래 3개 버튼 나란히 같은 너비 */
+  .setup .setup__line--rot {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .setup .setup__line--rot > .setup__label {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    margin-bottom: 4px !important;
+    font-weight: bold !important;
+  }
+  .setup .setup__line--rot > .chip {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    text-align: center !important;
+  }
+
+  /* 덧붙는 요소: 콤보, 막판 3배, 아이템 나란히 같은 너비 */
+  .setup .setup__line--rules {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .setup .setup__line--rules > .switch {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    padding: 8px 4px !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #e2cfb4 !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+  }
+
+  /* 협동: 단계 및 하트 줄바꿈 방지 */
+  .coop__head {
+    display: flex !important;
+    gap: 6px !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+  }
+  .coop__stage {
+    white-space: nowrap !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    flex: none !important;
+  }
+  .coop__hearts {
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    letter-spacing: -1px !important;
+    flex: none !important;
   }
 
   /* 3. 인게임 화면: 상단 HUD 및 나가기 버튼 */
@@ -1538,7 +1669,40 @@ body::after {
     box-shadow: 0 0 0 4px var(--paper-2), 0 6px 10px var(--shadow) !important;
   }
 
-  /* 4. 결과 화면 */
+  /* 4. 그만하기 / 안내 팝업창 */
+  .dialog {
+    width: min(88vw, 320px) !important;
+    max-width: 90vw !important;
+    padding: 22px 18px !important;
+    box-sizing: border-box !important;
+  }
+  .dialog h2 {
+    font-size: 20px !important;
+    white-space: nowrap !important;
+    margin: 0 0 8px !important;
+  }
+  .dialog p {
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    margin: 0 0 18px !important;
+  }
+  .dialog .actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .dialog .actions .btn {
+    flex: 1 1 0 !important;
+    font-size: 15px !important;
+    padding: 10px 8px !important;
+    white-space: nowrap !important;
+    border-radius: 999px !important;
+    min-width: 0 !important;
+  }
+
+  /* 5. 결과 화면 */
   .screen {
     padding: 20px 16px 32px;
   }
@@ -1556,15 +1720,20 @@ body::after {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    max-width: 300px !important;
-    gap: 10px !important;
-    margin-top: 12px !important;
+    max-width: 280px !important;
+    gap: 12px !important;
+    margin: 20px auto 0 !important;
   }
   .screen--center .actions .btn {
     width: 100% !important;
-    font-size: 19px !important;
-    padding: 13px 20px !important;
+    height: 48px !important;
+    font-size: 18px !important;
+    padding: 0 20px !important;
     border-radius: 999px !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .ranking {
     width: 100%;

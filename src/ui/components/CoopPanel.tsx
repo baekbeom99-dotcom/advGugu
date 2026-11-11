@@ -17,7 +17,7 @@ export function CoopPanel({ coop, message, solo = false, bannerLift = 0 }: Props
   const { stage, hearts, hp, maxHp, mission } = coop;
   return (
     <div className={solo ? 'coop coop--solo' : 'coop'}>
-      {message && <div className="coop__banner" role="status" style={bannerLift ? { marginBottom: 16 + bannerLift } : undefined}>{message}</div>}
+      {message && <div className="coop__banner" role="status" style={{ display: 'none' }}>{message}</div>}
       <div className="coop__head">
         <span className="coop__stage">{stage}단계</span>
         <span className="meter meter--hp" aria-label={`거북이 체력 ${hp}/${maxHp}`}>

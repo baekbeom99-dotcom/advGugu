@@ -97,12 +97,12 @@ test('시작 버튼을 빠르게 두 번 눌러도 한 번만 시작한다', asy
   expect(onStart).toHaveBeenCalledTimes(1);
 });
 
-test('협동은 1~2명이고 대결 방식이 없다', async () => {
+test('같이하기(협동)는 2인으로 진행되고 대결 방식이 없다', async () => {
   const onStart = vi.fn();
   render(<Setup kind="coop" onStart={onStart} onBack={() => {}} />);
   await waitLoaded();
-  expect(screen.getByRole('heading', { name: '협동' })).toBeInTheDocument();
-  expect(within(screen.getByRole('group', { name: '인원' })).getAllByRole('radio')).toHaveLength(2);
+  expect(screen.getByRole('heading', { name: '같이하기' })).toBeInTheDocument();
+  expect(screen.queryByRole('group', { name: '인원' })).not.toBeInTheDocument();
   expect(screen.queryByRole('group', { name: '대결 방식' })).not.toBeInTheDocument();
   expect(await startWith(onStart)).toMatchObject({ mode: 'coop', teams: null, rules: { combo: false, finalRound: false, items: false } });
 });
@@ -148,9 +148,9 @@ test('초성 고르기 팝업은 닫기 버튼으로 닫힌다', async () => {
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
 
-test('이름 입력칸 길이는 이름 길이에 맞춰 늘고 준다', () => {
+test('이름 입력칸에 텍스트가 정상 반영된다', () => {
   render(<Setup kind="versus" onStart={() => {}} onBack={() => {}} />);
   const input = screen.getByLabelText('플레이어 1 이름');
   fireEvent.change(input, { target: { value: '가나다라마바사' } });
-  expect(input).toHaveStyle({ width: '8.4em' });
+  expect(input).toHaveValue('가나다라마바사');
 });

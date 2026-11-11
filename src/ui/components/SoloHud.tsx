@@ -17,7 +17,6 @@ interface Props {
 
 export function SoloHud({ mode, kind, now, best, lastGrade, item, onUseItem }: Props) {
   const seconds = Math.max(0, Math.ceil(mode.timeLeft / 1000));
-  const ghost = best !== null && best > 0 ? Math.min(100, Math.round((mode.score / best) * 100)) : null;
   return (
     <div className="solo">
       <div className="solo__row">
@@ -42,14 +41,6 @@ export function SoloHud({ mode, kind, now, best, lastGrade, item, onUseItem }: P
         {now < mode.timeStopUntil && <span aria-label="시간 정지">⏸️</span>}
         {lastGrade && <span className={`solo__grade solo__grade--${lastGrade}`}>{GRADE_LABELS[lastGrade]}</span>}
       </div>
-      {kind === 'soloSurvival' && ghost !== null && (
-        <div className="solo__ghost">
-          <span>최고 {best}점</span>
-          <span className="meter meter--ghost" aria-label={`최고 기록 대비 ${ghost}%`}>
-            <i style={{ width: `${ghost}%` }} />
-          </span>
-        </div>
-      )}
     </div>
   );
 }

@@ -10,6 +10,8 @@ interface Props {
   facing: 0 | 180;
   /** 혼자 하는 몬스터 사냥: 구할 사람이 없으니 방어하는 중이라고 알린다 */
   solo?: boolean;
+  /** 안내 메시지 (있으면 게이지를 비활성화하고 메시지 표시) */
+  message?: string | null;
 }
 
 /** 이보다 적게 남으면 막대가 깜빡인다 */
@@ -20,7 +22,20 @@ const seconds = (ms: number) => Math.max(0, Math.ceil(ms / 1000));
 const pct = (v: number, max: number) => `${Math.max(0, Math.min(100, (v / max) * 100))}%`;
 
 /** 협동 불 게이지: 정보 칸 밖에 크게 그리는 막대. 불 공격까지 남은 시간, 불 공격 중에는 버티는 시간을 보여 준다 */
-export function FireGauge({ coop, names, rect, facing, solo = false }: Props) {
+export function FireGauge({ coop, names, rect, facing, solo = false, message = null }: Props) {
+  if (message) {
+    return (
+      <div
+        className="fire-gauge fire-gauge--message"
+        role="status"
+        data-testid="fire-gauge"
+        style={{ left: rect.x, top: rect.y, width: rect.w, height: rect.h, transform: `rotate(${facing}deg)` }}
+      >
+        <span className="fire-gauge__message-text">{message}</span>
+      </div>
+    );
+  }
+
   const { fire, attackLeft, attackTotal } = coop;
   const label = !fire ? '불 공격까지' : solo ? '방어하는 중' : `${names[fire.target]} 구하기 ${fire.got}/${RESCUE_NEED}`;
   const left = fire ? fire.timeLeft : attackLeft;

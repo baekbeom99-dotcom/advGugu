@@ -165,27 +165,27 @@ function skyTable(W: number, H: number, screen: Rect): TableGeom {
   };
 }
 
-/** 1인 협동 테이블 */
+/** 1인 협동 테이블 (몬스터 사냥) */
 function soloCoopTable(W: number, H: number, screen: Rect): TableGeom {
   const isPortrait = H >= W;
-  // 상단 악당 거북이(보스)
-  const centerR = isPortrait ? Math.min(W * 0.22, H * 0.11) : Math.min(W, H) * 0.18;
-  const centerCy = isPortrait ? H * 0.20 : H * 0.30;
+  // 거북이(보스)를 화면 중앙으로 이동 (불 쏘는 거리 확보)
+  const centerR = isPortrait ? Math.min(W * 0.18, H * 0.09) : Math.min(W, H) * 0.18;
+  const centerCy = isPortrait ? H * 0.40 : H * 0.30;
   const center: Ellipse = { cx: W / 2, cy: centerCy, rx: centerR, ry: centerR };
 
-  // 불 게이지: 보스 거북이 가시(centerR * 1.34)와 겹치지 않도록 centerCy + centerR * 1.5 아래에 배치
+  // 불 게이지: 거북이보다 위쪽에 배치
   const gaugeW = isPortrait ? Math.min(W * 0.86, 320) : W * 0.7;
-  const gaugeH = isPortrait ? 24 : 22;
-  const gaugeY = isPortrait ? Math.max(centerCy + centerR * 1.5, H * 0.36) : H * 0.52;
+  const gaugeH = isPortrait ? 26 : 22;
+  const gaugeY = isPortrait ? Math.max(H * 0.13, 76) : H * 0.52;
   const gauge: Rect = { x: (W - gaugeW) / 2, y: gaugeY, w: gaugeW, h: gaugeH };
 
-  // 하단 플레이어 자리
+  // 하단 플레이어 자리 (입력 영역과 겹치지 않고 불 쏘는 거리 110px 이상 확보)
   const seatRx = isPortrait ? W * 0.46 : W * 0.38;
-  const seatRy = isPortrait ? H * 0.24 : H * 0.34;
+  const seatRy = isPortrait ? H * 0.22 : H * 0.34;
   const seatEllipse: Ellipse = { cx: W / 2, cy: H, rx: seatRx, ry: seatRy };
 
   const hudW = Math.min(W * 0.42, 140);
-  const hudH = isPortrait ? 54 : 36;
+  const hudH = isPortrait ? 52 : 36;
   const hudRect: Rect = { x: 14, y: 14, w: hudW, h: hudH };
   const badge: Rect = { x: 14, y: H - seatRy - 34 - 10, w: 90, h: 34 };
   const extras: Rect = { x: W - 14 - 110, y: H - seatRy - 34 - 10, w: 110, h: 34 };
@@ -212,11 +212,11 @@ function soloCoopTable(W: number, H: number, screen: Rect): TableGeom {
 function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPortrait: boolean): TableGeom {
   if (isPortrait) {
     // 세로 화면 (Portrait) 3단 수직 구조: 보스 및 게이지와 플레이어 거북이가 겹치지 않게 조절
-    const centerR = coop ? Math.min(W * 0.17, H * 0.085) : Math.min(W * 0.20, H * 0.10);
+    const centerR = coop ? Math.min(W * 0.16, H * 0.08) : Math.min(W * 0.20, H * 0.10);
     const centerCy = H / 2;
     const center: Ellipse = { cx: W / 2, cy: centerCy, rx: centerR, ry: centerR };
 
-    // 좌석 타원 반지름: 세로 3등분 고려
+    // 좌석 타원 반지름
     const seatRx = W * 0.46;
     const seatRy = coop ? H * 0.18 : H * 0.21;
 
@@ -240,19 +240,21 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
     const p2Badge: Rect = { x: W - 14 - badgeW, y: seatRy + 8, w: badgeW, h: badgeH };
     const p2Extras: Rect = { x: 14, y: seatRy + 8, w: 96, h: badgeH };
 
-    // HUD: 중앙 카드 좌측 빈 공간 (상/하로 나누어 각 플레이어 시선에 맞춤)
-    const hudW = 76;
-    const hudH = 26;
+    // HUD: 공용 정보 칸 (단계/체력/하트 줄바꿈 방지)
+    const hudW = coop ? Math.min(W * 0.44, 150) : 76;
+    const hudH = coop ? 34 : 26;
     const hud0: Rect = { x: 10, y: centerCy + 6, w: hudW, h: hudH };
-    const hud1: Rect = { x: 10, y: centerCy - 32, w: hudW, h: hudH };
+    const hud1: Rect = { x: 10, y: centerCy - (coop ? 40 : 32), w: hudW, h: hudH };
 
-    // 협동 불 게이지: 보스 거북이 가시(centerR * 1.34)와 겹치지 않게 centerR * 1.55 이상 거리 확보
+    // 협동 불 게이지: 조작 영역과 더 가까이 배치하여 거북이와 겹치지 않게
     const gauges: TableGeom['gauges'] = [];
     if (coop) {
-      const gW = Math.min(W * 0.76, 280);
-      const gH = 16;
-      const botY = centerCy + centerR * 1.55;
-      const topY = centerCy - centerR * 1.55 - gH;
+      const gW = Math.min(W * 0.82, 300);
+      const gH = 18;
+      // 하단 P1 게이지: P1 조작 영역 바로 위 (H * 0.69 부근)
+      const botY = Math.min(H * 0.70, H - seatRy - badgeH - gH - 12);
+      // 상단 P2 게이지: P2 조작 영역 바로 아래 (H * 0.31 부근)
+      const topY = Math.max(H * 0.30 - gH, seatRy + badgeH + 12);
       gauges.push({ rect: { x: (W - gW) / 2, y: botY, w: gW, h: gH }, facing: 0 });
       gauges.push({ rect: { x: (W - gW) / 2, y: topY, w: gW, h: gH }, facing: 180 });
     }
