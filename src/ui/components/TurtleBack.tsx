@@ -19,8 +19,8 @@ function blushLine(x: number): string {
   const y = -(TURTLE_HEAD.top + 0.9) / 2;
   return `M${(x - 0.025).toFixed(3)} ${(y + 0.04).toFixed(3)} L${(x + 0.025).toFixed(3)} ${(y - 0.04).toFixed(3)}`;
 }
-/** 영역 타원 반지름의 몇 배까지 그림을 그릴지 (머리·다리가 영역 밖으로 나온다) */
-const PAD = 1.5;
+/** 영역 타원 반지름의 몇 배까지 그림을 그릴지 (머리가 길게 뻗어나와도 잘리지 않도록 넉넉하게 확장) */
+const PAD = 2.0;
 /** 등껍질 격자 무늬 간격 (타원 반지름 1 기준) */
 const GRID = 0.3;
 

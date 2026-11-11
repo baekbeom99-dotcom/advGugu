@@ -79,7 +79,7 @@ interface Props {
 }
 
 type SoloMethod = 'survival' | 'stage' | 'hunt';
-const SOLO_METHODS: Record<SoloMethod, string> = { survival: '서바이벌', stage: '스테이지 도전', hunt: '몬스터 사냥' };
+const SOLO_METHODS: Record<SoloMethod, string> = { survival: '서바이벌', stage: '도전', hunt: '몬스터 사냥' };
 const SOLO_ICONS: Record<SoloMethod, 'versus' | 'flag' | 'monster'> = { survival: 'versus', stage: 'flag', hunt: 'monster' };
 const METHOD_ICONS: Record<Method, 'star' | 'bomb'> = { score: 'star', bomb: 'bomb' };
 /** 혼자 하기 서바이벌·스테이지에는 아이템만 켠다 */

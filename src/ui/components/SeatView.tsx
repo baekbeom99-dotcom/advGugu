@@ -31,6 +31,8 @@ interface Props {
   onTap: (symbolId: string) => void;
   streak?: number;
   item?: ItemId | null;
+  /** 아이템 규칙이 켜져 있을 때 (아이템 슬롯 상자 표시) */
+  itemSlot?: boolean;
   onUseItem?: () => void;
   team?: number | null;
   hintSymbol?: string | null;
@@ -76,7 +78,7 @@ export function extrasRect(geom: SeatGeom): Rect {
 
 export function SeatView(props: Props) {
   const { index, geom, color, symbols, placements, score, name, showName, locked, flash, correctSymbol, onTap } = props;
-  const { streak = 0, item = null, onUseItem, team = null, hintSymbol = null, spinning = false, targets = null, onPickTarget } = props;
+  const { streak = 0, item = null, itemSlot = false, onUseItem, team = null, hintSymbol = null, spinning = false, targets = null, onPickTarget } = props;
   const { dim = false, hideScore = false, namePath, burning = false, turtle = false, cards } = props;
   const { cx, cy, rx, ry } = geom.region.ellipse;
   // 혼자 하기 거북이는 초록 등껍질로 칠한다
@@ -85,7 +87,7 @@ export function SeatView(props: Props) {
     .filter(Boolean).join(' ');
   const ex = extrasRect(geom);
   const rotate = `rotate(${geom.facing}deg)`;
-  const showExtras = streak >= 2 || item || (targets && targets.length > 0);
+  const showExtras = streak >= 2 || item || itemSlot || (targets && targets.length > 0);
   const box = { left: cx - rx, top: cy - ry, width: rx * 2, height: ry * 2 };
 
   return (
@@ -125,14 +127,31 @@ export function SeatView(props: Props) {
       {showExtras && (
         <div className="extras" style={{ left: ex.x, top: ex.y, width: ex.w, height: ex.h, transform: rotate, overflow: 'hidden', justifyContent: geom.extras ? (turtle ? 'flex-end' : 'flex-start') : undefined }}>
           {streak >= 2 && <span className="combo">콤보 {streak}</span>}
-          {item && (
-            <button
-              className="item-btn"
-              aria-label={ITEM_LABELS[item]}
-              onPointerDown={e => { e.preventDefault(); onUseItem?.(); }}
-            >
-              {ITEM_ICONS[item]}
-            </button>
+          {itemSlot ? (
+            <span className="extras__item-box">
+              <span className="extras__item-label">아이템</span>
+              <span className="extras__item-slot">
+                {item && (
+                  <button
+                    className="item-btn"
+                    aria-label={ITEM_LABELS[item]}
+                    onPointerDown={e => { e.preventDefault(); onUseItem?.(); }}
+                  >
+                    {ITEM_ICONS[item]}
+                  </button>
+                )}
+              </span>
+            </span>
+          ) : (
+            item && (
+              <button
+                className="item-btn"
+                aria-label={ITEM_LABELS[item]}
+                onPointerDown={e => { e.preventDefault(); onUseItem?.(); }}
+              >
+                {ITEM_ICONS[item]}
+              </button>
+            )
           )}
           {targets?.map(t => (
             <button

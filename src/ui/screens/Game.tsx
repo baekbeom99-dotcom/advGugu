@@ -407,6 +407,7 @@ export function Game({ config, symbols, onOver, best = null, onExit }: Props) {
           onTap={symbol => tap(i, symbol)}
           streak={rules.combo ? state.players[i].streak : 0}
           item={rules.items ? state.players[i].item : null}
+          itemSlot={isSolo && rules.items}
           onUseItem={() => controller.dispatch({ type: 'USE_ITEM', player: i })}
           team={config.teams?.[i] ?? null}
           hintSymbol={state.players[i].hintRound === round.index ? round.answers[i] : null}
@@ -434,8 +435,6 @@ export function Game({ config, symbols, onOver, best = null, onExit }: Props) {
               now={state.now}
               best={best}
               lastGrade={lastGrade}
-              item={rules.items ? state.players[0].item : undefined}
-              onUseItem={() => controller.dispatch({ type: 'USE_ITEM', player: 0 })}
             />
           ) : (
             hudContent

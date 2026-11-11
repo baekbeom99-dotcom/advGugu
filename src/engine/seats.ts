@@ -240,24 +240,28 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
     const p2Badge: Rect = { x: W - 14 - badgeW, y: seatRy + 8, w: badgeW, h: badgeH };
     const p2Extras: Rect = { x: 14, y: seatRy + 8, w: 96, h: badgeH };
 
-    // HUD: 공용 정보 칸 (단계/체력/하트 줄바꿈 방지)
-    const hudW = coop ? Math.min(W * 0.44, 150) : 76;
-    const hudH = coop ? 34 : 26;
-    const hud0: Rect = { x: 10, y: centerCy + 6, w: hudW, h: hudH };
-    const hud1: Rect = { x: 10, y: centerCy - (coop ? 40 : 32), w: hudW, h: hudH };
-
     // 협동 불 게이지: 조작 영역과 더 가까이 배치하여 거북이와 겹치지 않게
     const gauges: TableGeom['gauges'] = [];
+    const gW = Math.min(W * 0.84, 300);
+    const gH = 24;
+    // 하단 P1 게이지: P1 조작 영역 바로 위 (H * 0.70 부근)
+    const botY = Math.min(H * 0.71, H - seatRy - badgeH - gH - 10);
+    // 상단 P2 게이지: P2 조작 영역 바로 아래 (H * 0.29 부근)
+    const topY = Math.max(H * 0.29 - gH, seatRy + badgeH + 10);
     if (coop) {
-      const gW = Math.min(W * 0.82, 300);
-      const gH = 18;
-      // 하단 P1 게이지: P1 조작 영역 바로 위 (H * 0.69 부근)
-      const botY = Math.min(H * 0.70, H - seatRy - badgeH - gH - 12);
-      // 상단 P2 게이지: P2 조작 영역 바로 아래 (H * 0.31 부근)
-      const topY = Math.max(H * 0.30 - gH, seatRy + badgeH + 12);
       gauges.push({ rect: { x: (W - gW) / 2, y: botY, w: gW, h: gH }, facing: 0 });
       gauges.push({ rect: { x: (W - gW) / 2, y: topY, w: gW, h: gH }, facing: 180 });
     }
+
+    // HUD: 공용 정보 칸 (같이하기에서 게임정보 박스는 사용자 기준 게이지 우측 상단에 배치)
+    const hudW = coop ? Math.min(W * 0.44, 150) : 76;
+    const hudH = coop ? 34 : 26;
+    const hud0: Rect = coop
+      ? { x: W - hudW - 14, y: botY - hudH - 6, w: hudW, h: hudH }
+      : { x: 10, y: centerCy + 6, w: hudW, h: hudH };
+    const hud1: Rect = coop
+      ? { x: 14, y: topY + gH + 6, w: hudW, h: hudH }
+      : { x: 10, y: centerCy - (coop ? 40 : 32), w: hudW, h: hudH };
 
     // 나가기 버튼: 중앙 우측 테두리
     const exit: Rect = { x: W - EXIT_W - 8, y: centerCy - EXIT_H / 2, w: EXIT_W, h: EXIT_H };

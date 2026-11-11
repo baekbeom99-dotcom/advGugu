@@ -107,11 +107,11 @@ test('같이하기(협동)는 2인으로 진행되고 대결 방식이 없다', 
   expect(await startWith(onStart)).toMatchObject({ mode: 'coop', teams: null, rules: { combo: false, finalRound: false, items: false } });
 });
 
-test('혼자 하기: 스테이지 도전은 열린 단계까지 고를 수 있고 심볼 수 슬라이더가 없다', async () => {
+test('혼자 하기: 도전은 열린 단계까지 고를 수 있고 심볼 수 슬라이더가 없다', async () => {
   const onStart = vi.fn();
   render(<Setup kind="solo" onStart={onStart} onBack={() => {}} records={{ ...EMPTY_RECORDS, unlocked: { [SET_ID]: 3 } }} />);
   await waitLoaded();
-  fireEvent.click(screen.getByRole('radio', { name: '스테이지 도전' }));
+  fireEvent.click(screen.getByRole('radio', { name: '도전' }));
   expect(within(screen.getByRole('group', { name: '단계' })).getAllByRole('radio')).toHaveLength(3);
   expect(screen.queryByRole('slider', { name: '플레이어 1 글자 수' })).not.toBeInTheDocument();
   expect(await startWith(onStart)).toMatchObject({ mode: 'soloStage', stage: 3, rules: { items: true } });
