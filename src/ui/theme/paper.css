@@ -649,7 +649,7 @@ body::after {
 }
 .mode-card {
   width: min(18vw, 190px);
-  height: min(40vh, 290px);
+  height: min(48vh, 348px);
   border: 0;
   border-radius: 22px;
   padding: 16px 14px 18px;
@@ -1321,23 +1321,23 @@ body::after {
   .mode-card {
     flex-direction: column !important;
     width: 100% !important;
-    height: clamp(168px, 24vh, 216px) !important;
-    padding: 14px 8px 16px !important;
+    height: clamp(202px, 29vh, 260px) !important;
+    padding: 18px 8px 18px !important;
     gap: 0 !important;
     align-items: center !important;
     justify-content: space-between !important;
-    border-radius: 22px !important;
+    border-radius: 24px !important;
     box-shadow: 0 0 0 2px var(--paper-2), 0 3px 0 1px var(--paper-3), 0 8px 16px rgba(30, 70, 40, .16) !important;
     box-sizing: border-box !important;
     text-align: center !important;
   }
   .mode-card__art {
-    width: min(66px, 80%) !important;
-    height: min(66px, 80%) !important;
+    width: min(76px, 80%) !important;
+    height: min(76px, 80%) !important;
     aspect-ratio: 1 !important;
     flex: none !important;
-    margin: 2px auto 0 !important;
-    border-radius: 16px !important;
+    margin: 4px auto 0 !important;
+    border-radius: 18px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1351,14 +1351,14 @@ body::after {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: 6px !important;
+    gap: 8px !important;
     width: 100% !important;
     text-align: center !important;
     flex: 1 !important;
-    margin-top: 6px !important;
+    margin-top: 8px !important;
   }
   .mode-card__title {
-    font-size: clamp(15px, 4.2vw, 18px) !important;
+    font-size: clamp(16px, 4.5vw, 19px) !important;
     font-weight: bold !important;
     line-height: 1.25 !important;
     margin: 0 !important;
@@ -1367,7 +1367,7 @@ body::after {
     color: var(--ink) !important;
   }
   .mode-card__desc {
-    font-size: clamp(11px, 2.9vw, 13px) !important;
+    font-size: clamp(11.5px, 3.1vw, 13.5px) !important;
     line-height: 1.35 !important;
     color: #7a5c48 !important;
     margin: 0 !important;
@@ -1378,7 +1378,7 @@ body::after {
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     width: 100% !important;
-    min-height: 2.7em !important;
+    min-height: 2.8em !important;
   }
 
   /* 2. 설정 화면 */
