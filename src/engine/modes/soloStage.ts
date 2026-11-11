@@ -4,7 +4,13 @@ import type { Mode } from '../state';
 
 export const STAGE_COUNT = 20;
 export const STAGE_TIME_MS = 20000;
-const PENALTY_MS = 2000;
+
+/** 단계별 오답 패널티: 단계가 올라갈수록 틀렸을 때 시간이 더 많이 깎인다 (1~5단계 2초, 6~10단계 2.5초, 11단계 이상 3초) */
+export function stagePenaltyMs(stage: number): number {
+  if (stage >= 11) return 3000;
+  if (stage >= 6) return 2500;
+  return 2000;
+}
 
 export function stageParams(n: number, poolSize: number): { target: number; cardSize: number; timeMs: number } {
   return {
@@ -36,7 +42,10 @@ export const soloStage: Mode = {
     const next = cleared ? { ...mode, cleared: 1, stars: stageStars(mode.timeLeft, STAGE_TIME_MS) } : mode;
     return { state: { ...s, mode: next }, nextRound: !cleared, events };
   },
-  onWrong: s => ({ ...s, mode: { ...soloWrong(s.mode), timeLeft: s.mode.timeLeft - PENALTY_MS } }),
+  onWrong: s => {
+    const penalty = stagePenaltyMs(s.config.stage ?? 1);
+    return { ...s, mode: { ...soloWrong(s.mode), timeLeft: s.mode.timeLeft - penalty } };
+  },
   onTick: (s, dt) => ({ state: { ...s, mode: { ...s.mode, timeLeft: s.mode.timeLeft - flowingDt(s, dt) } } }),
   isOver: s => s.mode.cleared === 1 || s.mode.timeLeft <= 0,
 };

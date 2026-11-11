@@ -679,26 +679,26 @@ body::after {
 .mode-card__art svg { width: 76%; max-height: 90%; filter: drop-shadow(0 4px 4px rgba(70, 45, 25, .25)); }
 .mode-card__title { flex: none; font-weight: 400; font-size: min(3.6vh, 28px); line-height: 1.2; white-space: nowrap; }
 .mode-card__desc { font-size: min(2vh, 15px); line-height: 1.3; color: #7a5c48; text-align: center; flex: none; height: 2.6em; overflow: hidden; word-break: keep-all; }
-/* 혼자 하기 거북이 뒤통수: 머리가 위로 3배 더 많이 뻗어나오며 뻗어나오는 정도가 불규칙·랜덤한 리듬 */
-.turtle-back__head { transform-box: fill-box; transform-origin: 50% 100%; animation: head-sway 6.4s ease-in-out infinite; }
+/* 혼자 하기 거북이 뒤통수: 머리가 빨간 선 위치까지 높이 솟구치며, 올라올 때마다 도달 높이가 다르게 불규칙·랜덤한 리듬 */
+.turtle-back__head { transform-box: fill-box; transform-origin: 50% 100%; animation: head-sway 6.6s ease-in-out infinite; }
 @keyframes head-sway {
-  0% { transform: translate(0, 0) scaleY(1) rotate(0deg); }
-  14% { transform: translate(-3%, -20%) scaleY(1.7) rotate(-7deg); }
-  26% { transform: translate(1%, 0) scaleY(1.1) rotate(2deg); }
-  40% { transform: translate(4%, -45%) scaleY(2.3) rotate(9deg); }
-  54% { transform: translate(-2%, -10%) scaleY(1.3) rotate(-3deg); }
-  68% { transform: translate(-5%, -75%) scaleY(2.8) rotate(-11deg); }
-  80% { transform: translate(2%, -5%) scaleY(1.2) rotate(3deg); }
-  90% { transform: translate(3%, -35%) scaleY(2.0) rotate(7deg); }
-  100% { transform: translate(0, 0) scaleY(1) rotate(0deg); }
+  0% { transform: translate(0, 4%) scaleY(1) rotate(0deg); }
+  13% { transform: translate(-3%, -40%) scaleY(1.4) rotate(-6deg); }
+  25% { transform: translate(1%, 2%) scaleY(1.05) rotate(2deg); }
+  38% { transform: translate(4%, -75%) scaleY(1.8) rotate(8deg); }
+  50% { transform: translate(-2%, -15%) scaleY(1.2) rotate(-3deg); }
+  65% { transform: translate(-5%, -115%) scaleY(2.2) rotate(-10deg); }
+  78% { transform: translate(2%, -8%) scaleY(1.1) rotate(3deg); }
+  88% { transform: translate(3%, -55%) scaleY(1.55) rotate(6deg); }
+  100% { transform: translate(0, 4%) scaleY(1) rotate(0deg); }
 }
-/* 맞히면 뒤통수와 목이 아주 높게 쑥 솟구치며 신나게 환호 */
+/* 맞히면 뒤통수와 목이 빨간 선을 훌쩍 넘는 최고 높이로 쑥 솟구치며 신나게 환호 */
 .turtle-back__head.is-cheer { animation: head-cheer 500ms cubic-bezier(0.18, 0.89, 0.32, 1.28); }
 @keyframes head-cheer {
   0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  30% { transform: translate(-3%, -60%) scale(1.2) scaleY(2.4) rotate(-8deg); }
-  60% { transform: translate(3%, -85%) scale(1.3) scaleY(3.0) rotate(8deg); }
-  80% { transform: translate(-1%, -30%) scale(1.1) scaleY(1.6) rotate(-2deg); }
+  35% { transform: translate(-3%, -95%) scale(1.15) scaleY(2.0) rotate(-6deg); }
+  65% { transform: translate(3%, -135%) scale(1.22) scaleY(2.4) rotate(8deg); }
+  85% { transform: translate(-1%, -45%) scale(1.08) scaleY(1.4) rotate(-2deg); }
   100% { transform: translate(0, 0) scale(1) rotate(0deg); }
 }
 
@@ -1091,9 +1091,9 @@ body::after {
 .setup .field { padding: 10px 18px 12px; border-radius: 20px; position: relative; overflow: hidden; background: linear-gradient(180deg, #fffaf0, #fbf1e0); box-shadow: 0 0 0 3px #f1e3c9, 0 6px 14px 2px var(--shadow); }
 .setup .field::before { display: none; }
 .setup .field--tab { padding-top: 50px; }
-.setup .field--tab > legend { position: absolute; left: 0; top: 0; margin: 0; padding: 0; border: 0; }
+.setup .field--tab > legend { position: absolute; left: 0; top: 0; margin: 0; padding: 0; border: 0; width: auto; max-width: none; }
 .setup .field--tab > legend > .setup__tab, .setup .field > .setup__tab { position: absolute; left: 0; top: 0; border-top-left-radius: 20px; }
-.setup__tab { height: 36px; padding: 0 40px 0 16px; border-radius: 20px 0 0 0; font-size: 19px; box-shadow: none; background: linear-gradient(180deg, #b8935f, #9a7347); clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); }
+.setup__tab { height: 36px; padding: 0 46px 0 16px; border-radius: 20px 0 0 0; font-size: 19px; box-shadow: none; background: linear-gradient(180deg, #b8935f, #9a7347); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); white-space: nowrap !important; width: max-content !important; max-width: none !important; display: inline-flex !important; align-items: center !important; box-sizing: border-box !important; }
 .setup__tab::after { content: '\2726'; margin-left: 4px; font-size: 12px; color: #f6d77a; }
 .setup__tab .icon { width: 1.25em; height: 1.25em; }
 
@@ -1504,6 +1504,7 @@ body::after {
     padding: 0 !important;
     border: 0 !important;
     width: auto !important;
+    max-width: none !important;
     height: auto !important;
     background: transparent !important;
   }
@@ -1516,12 +1517,15 @@ body::after {
     margin: 0 !important;
     height: 34px !important;
     font-size: 15px !important;
-    padding: 0 32px 0 14px !important;
+    padding: 0 44px 0 16px !important;
+    width: max-content !important;
+    max-width: none !important;
+    white-space: nowrap !important;
     border-top-left-radius: 20px !important;
     border-bottom-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%) !important;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%) !important;
     display: inline-flex !important;
     align-items: center !important;
     box-sizing: border-box !important;

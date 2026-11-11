@@ -20,18 +20,19 @@ function blushLine(x: number): string {
   return `M${(x - 0.025).toFixed(3)} ${(y + 0.04).toFixed(3)} L${(x + 0.025).toFixed(3)} ${(y - 0.04).toFixed(3)}`;
 }
 /** 영역 타원 반지름의 몇 배까지 그림을 그릴지 (머리가 길게 뻗어나와도 잘리지 않도록 넉넉하게 확장) */
-const PAD = 3.8;
+const PAD = 4.0;
 /** 등껍질 격자 무늬 간격 (타원 반지름 1 기준) */
 const GRID = 0.3;
 
 /**
  * 끝이 둥근 기둥(엄지) 모양 경로. 가로 반폭 w, 꼭대기 높이 top (등껍질 아래 끝 기준 반지름 배수).
  * 화면에서 둥글게 보이도록 위쪽 반원의 세로 반지름을 가로세로 비율(aspect = rx/ry)만큼 줄인다. shift만큼 오른쪽으로 옮긴다.
+ * 목이 길게 뻗어도 등껍질 위로 밑단이 드러나지 않도록 밑변을 등껍질 중심 안쪽(0.2)까지 깊게 연장한다.
  */
 function thumb(w: number, top: number, aspect: number, shift = 0): string {
   const capH = w * aspect;
   const f = (v: number) => v.toFixed(3);
-  return `M${f(shift - w)} -0.9 L${f(shift - w)} ${f(-top + capH)} A${f(w)} ${f(capH)} 0 0 1 ${f(shift + w)} ${f(-top + capH)} L${f(shift + w)} -0.9 Z`;
+  return `M${f(shift - w)} 0.2 L${f(shift - w)} ${f(-top + capH)} A${f(w)} ${f(capH)} 0 0 1 ${f(shift + w)} ${f(-top + capH)} L${f(shift + w)} 0.2 Z`;
 }
 
 interface Props {
