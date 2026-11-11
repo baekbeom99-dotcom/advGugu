@@ -111,10 +111,13 @@ export function Home({ onPick, onCollection }: { onPick: (kind: SetupKind) => vo
           <i key={size} style={{ width: `${size * 100}%`, height: `${size * 100}%`, background: color }} />
         ))}
       </div>
-      <h1 className="title__name" aria-label={APP_TITLE}>
-        <span>Turtle</span>
-        <span>Dobble</span>
-      </h1>
+      <div className="title__brand">
+        <h1 className="title__name" aria-label={APP_TITLE}>
+          <span>Turtle</span>
+          <span>Dobble</span>
+        </h1>
+        <span className="title__badge">모바일 버전</span>
+      </div>
 
       <svg className="title__hills" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         {HILLS.map(([base, amp, len, phase, color]) => <path key={base} d={hill(base, amp, len, phase)} fill={color} />)}
