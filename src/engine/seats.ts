@@ -76,7 +76,9 @@ function soloTable(W: number, H: number, screen: Rect): TableGeom {
   const badgeW = 90;
   const badgeH = 34;
   const badge: Rect = { x: 14, y: H - seatRy - badgeH - 10, w: badgeW, h: badgeH };
-  const extras: Rect = { x: W - 14 - 110, y: H - seatRy - badgeH - 10, w: 110, h: badgeH };
+  const extrasW = 120;
+  const extrasH = 42;
+  const extras: Rect = { x: W - extrasW - 16, y: H - seatRy - extrasH - 6, w: extrasW, h: extrasH };
 
   const exit: Rect = { x: W - EXIT_W - 14, y: 14, w: EXIT_W, h: EXIT_H };
 
@@ -115,7 +117,9 @@ function skyTable(W: number, H: number, screen: Rect): TableGeom {
     const badgeW = 90;
     const badgeH = 34;
     const badge: Rect = { x: 14, y: H - seatRy - badgeH - 10, w: badgeW, h: badgeH };
-    const extras: Rect = { x: W - 14 - 110, y: H - seatRy - badgeH - 10, w: 110, h: badgeH };
+    const extrasW = 120;
+    const extrasH = 42;
+    const extras: Rect = { x: W - extrasW - 16, y: H - seatRy - extrasH - 6, w: extrasW, h: extrasH };
 
     const exit: Rect = { x: W - EXIT_W - 14, y: 14, w: EXIT_W, h: EXIT_H };
 
@@ -253,14 +257,14 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
       gauges.push({ rect: { x: (W - gW) / 2, y: topY, w: gW, h: gH }, facing: 180 });
     }
 
-    // HUD: 공용 정보 칸 (같이하기에서 게임정보 박스는 사용자 기준 게이지 우측 상단에 배치)
-    const hudW = coop ? Math.min(W * 0.44, 150) : 76;
+    // HUD: 공용 정보 칸 (같이하기에서 게임정보창을 불공격 게이지만큼 길게 사이즈 조정)
+    const hudW = coop ? gW : 76;
     const hudH = coop ? 34 : 26;
     const hud0: Rect = coop
-      ? { x: W - hudW - 14, y: botY - hudH - 6, w: hudW, h: hudH }
+      ? { x: (W - gW) / 2, y: botY - hudH - 8, w: hudW, h: hudH }
       : { x: 10, y: centerCy + 6, w: hudW, h: hudH };
     const hud1: Rect = coop
-      ? { x: 14, y: topY + gH + 6, w: hudW, h: hudH }
+      ? { x: (W - gW) / 2, y: topY + gH + 8, w: hudW, h: hudH }
       : { x: 10, y: centerCy - (coop ? 40 : 32), w: hudW, h: hudH };
 
     // 나가기 버튼: 중앙 우측 테두리

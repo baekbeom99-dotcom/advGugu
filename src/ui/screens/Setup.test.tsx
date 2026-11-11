@@ -148,9 +148,8 @@ test('초성 고르기 팝업은 닫기 버튼으로 닫힌다', async () => {
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
 
-test('이름 입력칸에 텍스트가 정상 반영된다', () => {
+test('플레이어 설정에는 색상과 글자 수 선택기가 있다', () => {
   render(<Setup kind="versus" onStart={() => {}} onBack={() => {}} />);
-  const input = screen.getByLabelText('플레이어 1 이름');
-  fireEvent.change(input, { target: { value: '가나다라마바사' } });
-  expect(input).toHaveValue('가나다라마바사');
+  expect(screen.getByRole('group', { name: '플레이어 1 색' })).toBeInTheDocument();
+  expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).toBeInTheDocument();
 });

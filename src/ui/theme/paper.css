@@ -150,6 +150,7 @@ body {
 
 
 .extras { position: absolute; display: flex; gap: 6px; align-items: center; justify-content: center; overflow: hidden; }
+.seat:has(.turtle-back) .extras { overflow: visible !important; }
 .combo { background: var(--hit); border: 3px solid var(--ink); border-radius: 8px; padding: 2px 8px; font-size: 16px; white-space: nowrap; }
 .item-btn, .target-btn {
   font: inherit;
@@ -170,8 +171,9 @@ body {
   background: var(--paper);
   border: 2px solid #e0cdb0;
   border-radius: 12px;
-  padding: 2px 8px;
+  padding: 3px 8px;
   box-shadow: 0 3px 6px rgba(50, 30, 15, 0.15);
+  box-sizing: border-box;
 }
 .extras__item-label {
   font-size: 13px;
@@ -767,8 +769,8 @@ body::after {
 .setup .setup__picker .toggles { justify-content: center; gap: 12px; margin: 14px 0 22px; }
 .setup .setup__picker .toggles .chip { min-width: 58px; padding: 8px 10px; font-size: 26px; }
 
-/* 그만할까요 등 대화상자: 버튼 사이를 넓힌다 */
-.dialog .actions { gap: 72px; }
+/* 그만할까요 등 대화상자 */
+.dialog .actions { gap: 16px; }
 
 /* 같이 하기·팀 대결 정답 카드: 아래쪽은 찰랑거리는 물 */
 .center-card:not([class*="center-card--"]) .center-card__floor {
@@ -1221,33 +1223,35 @@ body::after {
     position: static !important;
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 12px !important;
   }
   .title__tools .btn {
     font-size: 14px !important;
     padding: 6px 14px !important;
     border-radius: 999px !important;
+    box-shadow: 0 0 0 2px #e5d4b8, 0 3px 0 1px #d6c0a0, 0 4px 6px rgba(60, 40, 20, 0.12) !important;
   }
   .title__tools .fullscreen-btn {
-    width: 34px !important;
-    height: 34px !important;
+    width: 36px !important;
+    height: 36px !important;
     padding: 0 !important;
     border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    box-shadow: 0 0 0 2px #e5d4b8, 0 3px 0 1px #d6c0a0, 0 4px 6px rgba(60, 40, 20, 0.12) !important;
   }
   .title__tools .fullscreen-btn svg {
-    width: 17px !important;
-    height: 17px !important;
+    width: 18px !important;
+    height: 18px !important;
   }
 
-  /* 해와 타이틀: 상단 헤더 버튼과 넉넉히 떨어지도록 top: 33%에 위치 */
+  /* 해와 타이틀: 상단 27% 지점에 단정하게 배치 */
   .title__sun {
     position: absolute;
     left: 50%;
-    top: 33%;
-    width: min(52vw, 195px);
+    top: 27%;
+    width: min(50vw, 185px);
     aspect-ratio: 1;
     translate: -50% -50%;
     z-index: 1;
@@ -1255,7 +1259,7 @@ body::after {
   .title__name {
     position: absolute;
     left: 50%;
-    top: 33%;
+    top: 27%;
     translate: -50% -50%;
     font-size: clamp(26px, 8vw, 38px);
     line-height: 0.95;
@@ -1266,17 +1270,18 @@ body::after {
   .title__turtle {
     position: absolute;
     left: 8%;
-    top: 46%;
+    top: 40%;
     width: min(18vw, 74px);
     z-index: 2;
   }
 
-  /* 모드 선택 카드 3개: 세로폭을 늘리고 아이콘 상단 배치, 텍스트 중앙정렬 */
+  /* 모드 선택 카드 3개: 타이틀과 최하단과의 정가운데로 이동 */
   .title__modes {
     position: absolute;
     left: 50%;
-    bottom: max(18px, env(safe-area-inset-bottom));
-    translate: -50% 0;
+    top: 64% !important;
+    bottom: auto !important;
+    translate: -50% -50% !important;
     width: min(94vw, 390px);
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
@@ -1764,8 +1769,10 @@ body::after {
   .dialog .actions {
     display: flex !important;
     flex-direction: column !important;
-    gap: 10px !important;
+    gap: 12px !important;
     width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .dialog .actions .btn {
     width: 100% !important;
@@ -1779,6 +1786,14 @@ body::after {
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
+    margin: 0 !important;
+    box-shadow: 0 0 0 2px #d4c0a5, 0 3px 0 1px #baa588, 0 4px 6px rgba(50, 30, 15, 0.12) !important;
+  }
+  .dialog .actions .btn.btn--primary {
+    background: linear-gradient(180deg, #ffd65c, #f5b52c) !important;
+    box-shadow: 0 0 0 2px #d9a73a, 0 3px 0 1px #b98524, 0 4px 6px rgba(50, 30, 15, 0.15) !important;
+    color: #3b2314 !important;
+    font-weight: bold !important;
   }
 
   /* 5. 결과 화면 */

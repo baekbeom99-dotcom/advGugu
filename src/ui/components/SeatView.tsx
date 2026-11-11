@@ -125,7 +125,7 @@ export function SeatView(props: Props) {
         </svg>
       )}
       {showExtras && (
-        <div className="extras" style={{ left: ex.x, top: ex.y, width: ex.w, height: ex.h, transform: rotate, overflow: 'hidden', justifyContent: geom.extras ? (turtle ? 'flex-end' : 'flex-start') : undefined }}>
+        <div className="extras" style={{ left: ex.x, top: ex.y, width: ex.w, height: ex.h, transform: rotate, overflow: turtle ? 'visible' : 'hidden', justifyContent: geom.extras ? (turtle ? 'flex-end' : 'flex-start') : undefined }}>
           {streak >= 2 && <span className="combo">콤보 {streak}</span>}
           {itemSlot ? (
             <span className="extras__item-box">

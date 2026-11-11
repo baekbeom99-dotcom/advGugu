@@ -315,13 +315,6 @@ export function Setup({ kind, onStart, onBack, records = EMPTY_RECORDS }: Props)
             <div className="field field--tab player player--card" key={i}>
               <Tab icon="player">{count === 1 ? '플레이어' : `플레이어 ${i + 1}`}</Tab>
               {teams && <span className="team-tag">{teams[i] === 0 ? 'A' : 'B'}</span>}
-              <input
-                className="input"
-                aria-label={`플레이어 ${i + 1} 이름`}
-                maxLength={NAME_MAX}
-                value={names[i]}
-                onChange={e => setNames(ns => ns.map((n, j) => (j === i ? e.target.value : n)))}
-              />
               <fieldset className="colors" aria-label={`플레이어 ${i + 1} 색`}>
                 {(Object.keys(SEAT_COLORS) as SeatColor[]).map(c => (
                   <label key={c} className={colors[i] === c ? 'swatch swatch--on' : 'swatch'} style={{ background: SEAT_COLORS[c] }}>
