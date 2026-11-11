@@ -60,14 +60,12 @@ export function computeTable(playerCount: 1 | 2, W: number, H: number, opts: Tab
 /** 1인 기본 테이블 */
 function soloTable(W: number, H: number, screen: Rect): TableGeom {
   const isPortrait = H >= W;
-  // 중앙 카드: 상단에 위치
-  const centerR = isPortrait ? Math.min(W * 0.28, H * 0.14) : Math.min(W * 0.22, H * 0.22);
-  const centerCy = isPortrait ? H * 0.28 : H * 0.28;
-  const center: Ellipse = { cx: W / 2, cy: centerCy, rx: centerR, ry: centerR };
+  const centerR = isPortrait ? Math.min(W * 0.22, H * 0.12) : Math.min(W * 0.22, H * 0.22);
+  const center = isPortrait ? skyArc(W, H, centerR, 0) : { cx: W / 2, cy: H * 0.28, rx: centerR, ry: centerR };
 
   // 플레이어 카드: 하단 원/타원
   const seatRx = isPortrait ? W * 0.46 : W * 0.38;
-  const seatRy = isPortrait ? H * 0.26 : H * 0.36;
+  const seatRy = isPortrait ? H * 0.24 : H * 0.36;
   const seatCy = H; // 화면 하단에 반원처럼 걸침
   const seatEllipse: Ellipse = { cx: W / 2, cy: seatCy, rx: seatRx, ry: seatRy };
 
@@ -77,8 +75,8 @@ function soloTable(W: number, H: number, screen: Rect): TableGeom {
 
   const badgeW = 90;
   const badgeH = 34;
-  const badge: Rect = { x: 14, y: H - seatRy - badgeH - 8, w: badgeW, h: badgeH };
-  const extras: Rect = { x: W - 14 - 110, y: H - seatRy - badgeH - 8, w: 110, h: badgeH };
+  const badge: Rect = { x: 14, y: H - seatRy - badgeH - 10, w: badgeW, h: badgeH };
+  const extras: Rect = { x: W - 14 - 110, y: H - seatRy - badgeH - 10, w: 110, h: badgeH };
 
   const exit: Rect = { x: W - EXIT_W - 14, y: 14, w: EXIT_W, h: EXIT_H };
 
@@ -103,11 +101,11 @@ function soloTable(W: number, H: number, screen: Rect): TableGeom {
 function skyTable(W: number, H: number, screen: Rect): TableGeom {
   const isPortrait = H >= W;
   if (isPortrait) {
-    const centerR = Math.min(W * 0.28, H * 0.14);
-    const center: Ellipse = { cx: W / 2, cy: H * 0.28, rx: centerR, ry: centerR };
+    const centerR = Math.min(W * 0.22, H * 0.12);
+    const center = skyArc(W, H, centerR, 0);
 
     const seatRx = W * 0.46;
-    const seatRy = H * 0.26;
+    const seatRy = H * 0.24;
     const seatEllipse: Ellipse = { cx: W / 2, cy: H, rx: seatRx, ry: seatRy };
 
     const hudW = Math.min(W * 0.42, 140);
@@ -170,25 +168,28 @@ function skyTable(W: number, H: number, screen: Rect): TableGeom {
 /** 1인 협동 테이블 */
 function soloCoopTable(W: number, H: number, screen: Rect): TableGeom {
   const isPortrait = H >= W;
-  // 상단 거북이(중앙 카드)
-  const centerR = isPortrait ? W * 0.28 : Math.min(W, H) * 0.18;
-  const centerCy = isPortrait ? H * 0.28 : H * 0.30;
+  // 상단 악당 거북이(보스)
+  const centerR = isPortrait ? Math.min(W * 0.22, H * 0.11) : Math.min(W, H) * 0.18;
+  const centerCy = isPortrait ? H * 0.20 : H * 0.30;
   const center: Ellipse = { cx: W / 2, cy: centerCy, rx: centerR, ry: centerR };
 
-  // 불 게이지 (거북이 바로 아래 수평 막대)
-  const gaugeW = isPortrait ? W * 0.88 : W * 0.7;
-  const gaugeH = 22;
-  const gaugeY = isPortrait ? centerCy + centerR + 18 : H * 0.52;
+  // 불 게이지: 보스 거북이 가시(centerR * 1.34)와 겹치지 않도록 centerCy + centerR * 1.5 아래에 배치
+  const gaugeW = isPortrait ? Math.min(W * 0.86, 320) : W * 0.7;
+  const gaugeH = isPortrait ? 24 : 22;
+  const gaugeY = isPortrait ? Math.max(centerCy + centerR * 1.5, H * 0.36) : H * 0.52;
   const gauge: Rect = { x: (W - gaugeW) / 2, y: gaugeY, w: gaugeW, h: gaugeH };
 
   // 하단 플레이어 자리
-  const seatRx = isPortrait ? W * 0.48 : W * 0.38;
-  const seatRy = isPortrait ? H * 0.28 : H * 0.34;
+  const seatRx = isPortrait ? W * 0.46 : W * 0.38;
+  const seatRy = isPortrait ? H * 0.24 : H * 0.34;
   const seatEllipse: Ellipse = { cx: W / 2, cy: H, rx: seatRx, ry: seatRy };
 
-  const hudRect: Rect = { x: 12, y: 12, w: 140, h: 36 };
-  const extras: Rect = { x: W - 12 - 110, y: H - seatRy - 40, w: 110, h: 36 };
-  const exit: Rect = { x: W - EXIT_W - 12, y: 12, w: EXIT_W, h: EXIT_H };
+  const hudW = Math.min(W * 0.42, 140);
+  const hudH = isPortrait ? 54 : 36;
+  const hudRect: Rect = { x: 14, y: 14, w: hudW, h: hudH };
+  const badge: Rect = { x: 14, y: H - seatRy - 34 - 10, w: 90, h: 34 };
+  const extras: Rect = { x: W - 14 - 110, y: H - seatRy - 34 - 10, w: 110, h: 34 };
+  const exit: Rect = { x: W - EXIT_W - 14, y: 14, w: EXIT_W, h: EXIT_H };
 
   return {
     center,
@@ -197,7 +198,7 @@ function soloCoopTable(W: number, H: number, screen: Rect): TableGeom {
         index: 0,
         region: { ellipse: seatEllipse, clip: screen },
         facing: 0,
-        badge: extras,
+        badge,
         extras,
       },
     ],
@@ -210,14 +211,14 @@ function soloCoopTable(W: number, H: number, screen: Rect): TableGeom {
 /** 2인 테이블: 세로 화면에서 상단(P2, 180도) - 중앙 카드 - 하단(P1, 0도) 3단 배치 */
 function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPortrait: boolean): TableGeom {
   if (isPortrait) {
-    // 세로 화면 (Portrait) 3단 수직 구조
-    const centerR = coop ? Math.min(W * 0.22, H * 0.11) : Math.min(W * 0.22, H * 0.11);
+    // 세로 화면 (Portrait) 3단 수직 구조: 보스 및 게이지와 플레이어 거북이가 겹치지 않게 조절
+    const centerR = coop ? Math.min(W * 0.17, H * 0.085) : Math.min(W * 0.20, H * 0.10);
     const centerCy = H / 2;
     const center: Ellipse = { cx: W / 2, cy: centerCy, rx: centerR, ry: centerR };
 
     // 좌석 타원 반지름: 세로 3등분 고려
     const seatRx = W * 0.46;
-    const seatRy = H * 0.23;
+    const seatRy = coop ? H * 0.18 : H * 0.21;
 
     // P1 (하단, 0도)
     const p1Center = { cx: W / 2, cy: H };
@@ -228,16 +229,16 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
     const p2Ellipse: Ellipse = { ...p2Center, rx: seatRx, ry: seatRy };
 
     const badgeW = 88;
-    const badgeH = 30;
+    const badgeH = 28;
 
     // 배지와 콤보/아이템 버튼 배치
     // P1: 하단 좌석 위쪽 테두리 부근
-    const p1Badge: Rect = { x: 14, y: H - seatRy - badgeH - 10, w: badgeW, h: badgeH };
-    const p1Extras: Rect = { x: W - 14 - 96, y: H - seatRy - badgeH - 10, w: 96, h: badgeH };
+    const p1Badge: Rect = { x: 14, y: H - seatRy - badgeH - 8, w: badgeW, h: badgeH };
+    const p1Extras: Rect = { x: W - 14 - 96, y: H - seatRy - badgeH - 8, w: 96, h: badgeH };
 
     // P2: 상단 좌석 아래쪽 테두리 부근 (180도 회전 고려)
-    const p2Badge: Rect = { x: W - 14 - badgeW, y: seatRy + 10, w: badgeW, h: badgeH };
-    const p2Extras: Rect = { x: 14, y: seatRy + 10, w: 96, h: badgeH };
+    const p2Badge: Rect = { x: W - 14 - badgeW, y: seatRy + 8, w: badgeW, h: badgeH };
+    const p2Extras: Rect = { x: 14, y: seatRy + 8, w: 96, h: badgeH };
 
     // HUD: 중앙 카드 좌측 빈 공간 (상/하로 나누어 각 플레이어 시선에 맞춤)
     const hudW = 76;
@@ -245,13 +246,15 @@ function twoPlayerTable(W: number, H: number, screen: Rect, coop: boolean, isPor
     const hud0: Rect = { x: 10, y: centerCy + 6, w: hudW, h: hudH };
     const hud1: Rect = { x: 10, y: centerCy - 32, w: hudW, h: hudH };
 
-    // 협동 불 게이지
+    // 협동 불 게이지: 보스 거북이 가시(centerR * 1.34)와 겹치지 않게 centerR * 1.55 이상 거리 확보
     const gauges: TableGeom['gauges'] = [];
     if (coop) {
-      const gW = W * 0.76;
-      const gH = 14;
-      gauges.push({ rect: { x: (W - gW) / 2, y: centerCy + centerR + 8, w: gW, h: gH }, facing: 0 });
-      gauges.push({ rect: { x: (W - gW) / 2, y: centerCy - centerR - 8 - gH, w: gW, h: gH }, facing: 180 });
+      const gW = Math.min(W * 0.76, 280);
+      const gH = 16;
+      const botY = centerCy + centerR * 1.55;
+      const topY = centerCy - centerR * 1.55 - gH;
+      gauges.push({ rect: { x: (W - gW) / 2, y: botY, w: gW, h: gH }, facing: 0 });
+      gauges.push({ rect: { x: (W - gW) / 2, y: topY, w: gW, h: gH }, facing: 180 });
     }
 
     // 나가기 버튼: 중앙 우측 테두리

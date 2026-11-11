@@ -22,11 +22,26 @@ export function skyPhase(correct: number): SkyPhase {
   return { body: k < SKY_STEPS ? 'sun' : 'moon', t: (k % SKY_STEPS) / (SKY_STEPS - 1) };
 }
 
-/** 반지름 R인 해의 중심. 세로 화면에서는 상단 중앙에 안정적으로 위치하고, 가로 화면에서는 수평선에서 떠서 위로 반타원을 그린다 */
+/** 반지름 R인 해의 중심. 세로 화면에서는 상단 하늘 영역에서 완만한 호를 그리며 이동하고, 가로 화면에서는 수평선에서 떠서 위로 반타원을 그린다 */
 export function skyArc(W: number, H: number, R: number, t: number): Ellipse {
   const isPortrait = H >= W;
   if (isPortrait) {
-    return { cx: W / 2, cy: H * 0.28, rx: R, ry: R };
+    // 세로 화면: 수면으로 내려오지 않고 하늘 상단 영역(H*0.20 ~ H*0.30)에서 완만한 포물선 호를 그림
+    // 좌우 여백 확보 (화면 테두리 안쪽 최소 18px 확보하여 카드가 절대 잘리지 않음)
+    const minCx = R + 18;
+    const maxCx = W - R - 18;
+    const ampX = Math.max(0, (maxCx - minCx) / 2);
+    const midX = W / 2;
+    const angle = Math.PI * t;
+    const cx = midX - ampX * Math.cos(angle);
+
+    // Y축: t=0(뜰 때)와 t=1(질 때)는 H * 0.30, t=0.5(한낮/정점)은 H * 0.20
+    // 수면(보통 H*0.48 이상)까지 절대 내려오지 않고 하늘 영역에서 유려하게 이동
+    const baseY = H * 0.30;
+    const ampY = H * 0.10;
+    const cy = baseY - ampY * Math.sin(angle);
+
+    return { cx, cy, rx: R, ry: R };
   }
   const m = SKY_MARGIN * Math.min(W, H);
   const a = W / 2 - m - R, b = H / 2 - m - R;

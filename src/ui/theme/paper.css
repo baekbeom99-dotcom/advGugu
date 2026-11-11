@@ -1253,20 +1253,27 @@ body::after {
     overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch;
-    padding: max(12px, env(safe-area-inset-top)) 14px max(24px, env(safe-area-inset-bottom)) !important;
+    padding: max(10px, env(safe-area-inset-top)) 14px max(44px, env(safe-area-inset-bottom)) !important;
     gap: 14px !important;
     box-sizing: border-box;
     display: flex !important;
     flex-direction: column !important;
   }
   .setup__bar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 20 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     gap: 8px !important;
-    padding: 2px 0 6px !important;
+    padding: 6px 0 10px !important;
     flex-shrink: 0 !important;
     width: 100% !important;
+    background: rgba(253, 246, 232, 0.94) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border-bottom: 2px solid rgba(228, 209, 180, 0.8) !important;
   }
   .setup__bar-side {
     display: flex;
@@ -1313,13 +1320,15 @@ body::after {
     width: 100% !important;
     flex: none !important;
     min-height: auto !important;
-    padding: 14px 12px !important;
     margin: 0 !important;
-    border-radius: 18px !important;
+    border-radius: 20px !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 12px !important;
     box-sizing: border-box !important;
+    background: linear-gradient(180deg, #fffcf5, #fbf2e3) !important;
+    box-shadow: 0 0 0 2px #ecdcbf, 0 6px 14px rgba(60, 40, 20, 0.08) !important;
+    border: 0 !important;
   }
   /* 탭(리본)이 첫 줄 버튼을 덮지 않도록 상단 여백 56px 확보 */
   .setup .field--tab,
@@ -1357,6 +1366,25 @@ body::after {
     gap: 8px !important;
     width: 100% !important;
   }
+  .setup .chip {
+    background: #ffffff !important;
+    border: 1.5px solid #e2cfb4 !important;
+    color: #53351d !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 4px rgba(60, 40, 20, 0.06) !important;
+    border-radius: 999px !important;
+    transition: transform 120ms ease, background 150ms ease !important;
+  }
+  .setup .chip:active {
+    transform: translateY(2px) !important;
+  }
+  .setup .chip--on {
+    background: linear-gradient(180deg, #ffd65c, #f5b52c) !important;
+    border: 1.5px solid #d49826 !important;
+    color: #3b2314 !important;
+    font-weight: bold !important;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7), 0 3px 0 1px #af7616, 0 5px 8px rgba(60, 35, 15, 0.2) !important;
+  }
   .setup__choices > .chip {
     flex: 1 1 0 !important;
     min-height: 44px !important;
@@ -1375,8 +1403,10 @@ body::after {
     width: 100% !important;
   }
   .setup .toggles > .setup__label {
-    min-width: 4.5em !important;
+    min-width: 4.8em !important;
     font-size: 14px !important;
+    font-weight: bold !important;
+    color: #5c3c24 !important;
   }
   .setup .toggles .chip {
     flex: 1 1 auto !important;
@@ -1403,24 +1433,35 @@ body::after {
     max-width: 100% !important;
     min-height: 44px !important;
     font-size: 17px !important;
-    padding: 8px 14px 8px 38px !important;
+    padding: 8px 14px 8px 16px !important;
     box-sizing: border-box !important;
     border-radius: 999px !important;
+    border: 2px solid #e0cdb0 !important;
+    background: #ffffff !important;
+    color: #4a2f1c !important;
     margin-top: 2px !important;
   }
   .setup .colors,
   .setup--solo .field.player--single > .colors {
     display: flex !important;
     justify-content: space-around !important;
+    align-items: center !important;
     gap: 8px !important;
     width: 100% !important;
-    padding: 2px 0 !important;
+    padding: 4px 0 !important;
   }
   .setup .swatch,
   .setup--solo .player--single .swatch {
-    width: 40px !important;
-    height: 40px !important;
+    width: 42px !important;
+    height: 42px !important;
     flex: none !important;
+    border-radius: 50% !important;
+    transition: transform 150ms ease, box-shadow 150ms ease !important;
+  }
+  .setup .swatch--on,
+  .setup--solo .player--single .swatch--on {
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px #7a4f28, 0 4px 8px rgba(0, 0, 0, 0.25) !important;
+    transform: scale(1.08) !important;
   }
   .setup .range,
   .setup--solo .field.player--single > .range {
@@ -1430,6 +1471,17 @@ body::after {
     width: 100% !important;
     gap: 10px !important;
     font-size: 15px !important;
+    color: #5c3c24 !important;
+    font-weight: 500 !important;
+  }
+  .setup .range b {
+    padding: 2px 10px !important;
+    border-radius: 999px !important;
+    background: #ffe494 !important;
+    color: #4a2f1c !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    box-shadow: 0 0 0 1px #deb652 !important;
   }
   .setup .range input {
     flex: 1 1 auto !important;
@@ -1448,6 +1500,12 @@ body::after {
   .setup .switch {
     font-size: 15px !important;
     gap: 8px !important;
+  }
+  .setup .switch__track {
+    min-width: 46px !important;
+    width: 46px !important;
+    height: 26px !important;
+    border-radius: 13px !important;
   }
 
   /* 3. 인게임 화면: 상단 HUD 및 나가기 버튼 */
