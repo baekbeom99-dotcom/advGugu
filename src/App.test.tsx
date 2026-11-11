@@ -1,0 +1,61 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import App, { recordGame } from './App';
+import { MODES } from './engine/modes';
+import { createGame } from './engine/reducer';
+import { TEST_POOL, testConfig } from './engine/testConfig';
+
+test('홈 화면 제목을 보여준다', () => {
+  render(<App />);
+  expect(screen.getByRole('heading', { name: 'Turtle Dobble' })).toBeInTheDocument();
+});
+test('같이 하기 → 설정 화면 → 처음으로 → 홈', () => {
+  render(<App />);
+  fireEvent.click(screen.getByRole('button', { name: '같이 하기' }));
+  expect(screen.getByRole('heading', { name: '같이 하기' })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: '처음으로' }));
+  expect(screen.getByRole('heading', { name: 'Turtle Dobble' })).toBeInTheDocument();
+});
+test('혼자 하기 → 혼자 하기 설정 화면', async () => {
+  render(<App />);
+  fireEvent.click(screen.getByRole('button', { name: '혼자 하기' }));
+  expect(screen.getByRole('heading', { name: '혼자 하기' })).toBeInTheDocument();
+  await waitFor(() => expect(screen.getByRole('button', { name: '시작' })).toBeInTheDocument());
+});
+test('협동 → 협동 설정 화면', async () => {
+  render(<App />);
+  fireEvent.click(screen.getByRole('button', { name: '협동' }));
+  expect(screen.getByRole('heading', { name: '협동' })).toBeInTheDocument();
+  await waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).not.toHaveAttribute('max', '3'));
+});
+test('게임 기록이 localStorage에 저장된다', () => {
+  localStorage.clear();
+  const s = createGame(testConfig({ mode: 'soloSurvival', players: [testConfig().players[0]] }), TEST_POOL, MODES);
+  const out = recordGame({ ...s, mode: { ...s.mode, score: 12, correct: 6 } }, 'S', 'ㄱ 글자');
+  expect(out?.newBest).toBe(true);
+  expect(out?.best).toBe(12);
+  expect(JSON.parse(localStorage.getItem('doble.records.v1')!).best['soloSurvival|S']).toBe(12);
+  expect(recordGame(createGame(testConfig(), TEST_POOL, MODES), 'S', 'n')).toBeNull();
+});
+test('홈 → 수집함 → 처음으로', () => {
+  render(<App />);
+  fireEvent.click(screen.getByRole('button', { name: '수집함' }));
+  expect(screen.getByRole('heading', { name: '수집함' })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: '처음으로' }));
+  expect(screen.getByRole('heading', { name: 'Turtle Dobble' })).toBeInTheDocument();
+});
+test('기록 저장 중 오류가 나도 recordGame은 예외를 던지지 않는다', () => {
+  const spy = vi.spyOn(globalThis, 'localStorage', 'get').mockImplementation(() => { throw new Error('SecurityError'); });
+  try {
+    const s = createGame(testConfig({ mode: 'soloSurvival', players: [testConfig().players[0]] }), TEST_POOL, MODES);
+    expect(() => recordGame({ ...s, mode: { ...s.mode, score: 5, correct: 3 } }, 'S', 'n')).not.toThrow();
+  } finally { spy.mockRestore(); }
+});
+test('저장소에 접근할 수 없어도 설정 화면이 열린다', async () => {
+  const spy = vi.spyOn(globalThis, 'localStorage', 'get').mockImplementation(() => { throw new Error('SecurityError'); });
+  try {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: '혼자 하기' }));
+    expect(screen.getByRole('heading', { name: '혼자 하기' })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('slider', { name: '플레이어 1 글자 수' })).not.toHaveAttribute('max', '3'));
+  } finally { spy.mockRestore(); }
+});
