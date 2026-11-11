@@ -1085,113 +1085,361 @@ body::after {
 .setup:not(.setup--dense) .setup__line--rules { flex-wrap: wrap; row-gap: 6px; }
 .setup:not(.setup--dense) .setup__line--rules > .setup__label { flex: 0 0 100%; }
 
-/* ---------- 2026-11-11 모바일 세로 화면(Portrait) 최적화 ---------- */
-@media (max-width: 640px), (max-aspect-ratio: 1/1) {
-  /* 타이틀 화면 */
-  .title__name {
-    top: 16%;
-    font-size: clamp(30px, 8.5vw, 44px);
+/* ---------- 2026-11-11 모바일 세로 화면(Portrait) 전면 재배치 ---------- */
+@media (max-width: 768px), (max-aspect-ratio: 1/1) {
+  /* 1. 홈 / 타이틀 화면 */
+  .title-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
-  .title__sun {
-    top: 20%;
-    width: min(60vw, 240px);
+  .title__collection {
+    position: absolute;
+    left: 14px;
+    top: max(14px, env(safe-area-inset-top));
+    z-index: 10;
+    font-size: 15px;
+    padding: 7px 16px;
+    border-radius: 999px;
   }
-  .title__turtle {
-    top: 28%;
-    width: min(22vw, 90px);
-  }
-  .title__modes {
-    bottom: 3.5vh;
+  .title__tools {
+    position: absolute;
+    right: 14px;
+    top: max(14px, env(safe-area-inset-top));
+    z-index: 10;
+    display: flex;
+    align-items: center;
     gap: 8px;
-    width: calc(100% - 20px);
-    max-width: 400px;
+  }
+  .title__tools .btn {
+    font-size: 15px;
+    padding: 7px 16px;
+    border-radius: 999px;
+  }
+  .title__tools .fullscreen-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
+  }
+  .title__tools .fullscreen-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 해와 타이틀: 상단 버튼과 절대 겹치지 않게 top: 27%에 위치 */
+  .title__sun {
+    position: absolute;
+    left: 50%;
+    top: 27%;
+    width: min(60vw, 230px);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    z-index: 1;
+  }
+  .title__name {
+    position: absolute;
+    left: 50%;
+    top: 27%;
+    translate: -50% -50%;
+    font-size: clamp(32px, 9vw, 46px);
+    line-height: 0.95;
+    z-index: 2;
+    text-align: center;
+  }
+  /* 하얀 거북이: 해 아래 언덕 위를 걸어감 */
+  .title__turtle {
+    position: absolute;
+    left: 8%;
+    top: 41%;
+    width: min(20vw, 84px);
+    z-index: 2;
+  }
+
+  /* 모드 선택 카드 3개: 화면 하단에 넉넉하게 안착 */
+  .title__modes {
+    position: absolute;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    translate: -50% 0;
+    width: calc(100% - 20px);
+    max-width: 420px;
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+    padding: 0;
   }
   .mode-card {
     flex: 1 1 0;
     min-width: 0;
     width: auto;
-    height: clamp(170px, 26vh, 220px);
-    padding: 10px 4px 12px;
-    border-radius: 18px;
+    height: clamp(180px, 27vh, 225px);
+    padding: 12px 6px 14px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     gap: 6px;
+    box-sizing: border-box;
   }
   .mode-card__art {
-    width: calc(100% - 12px);
-    margin: 4px 6px;
+    width: calc(100% - 10px);
+    aspect-ratio: 1.1;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    flex: 1 1 auto;
+  }
+  .mode-card__art svg {
+    width: 72%;
+    max-height: 85%;
   }
   .mode-card__title {
-    font-size: clamp(15px, 4.2vw, 20px);
+    font-size: clamp(15px, 4.2vw, 19px);
+    font-weight: bold;
+    white-space: nowrap;
+    margin: 2px 0 0;
   }
   .mode-card__desc {
     font-size: 11px;
     line-height: 1.25;
-    height: 2.5em;
+    height: 2.6em;
+    text-align: center;
+    word-break: keep-all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
   }
 
-  /* 설정 화면 */
+  /* 2. 설정 화면 */
   .setup {
-    height: 100%;
-    overflow-y: auto;
+    position: relative;
+    width: 100% !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch;
-    padding: 12px 14px 24px;
-    gap: 12px;
+    padding: max(12px, env(safe-area-inset-top)) 14px max(24px, env(safe-area-inset-bottom)) !important;
+    gap: 14px !important;
+    box-sizing: border-box;
+    display: flex !important;
+    flex-direction: column !important;
   }
   .setup__bar {
-    padding: 2px 0;
-    gap: 8px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 2px 0 6px !important;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+  }
+  .setup__bar-side {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   .setup__title {
-    font-size: clamp(20px, 5.5vw, 26px);
+    font-size: clamp(18px, 5vw, 24px) !important;
+    margin: 0 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    flex: 1 !important;
+  }
+  .setup__title .setup__laurel {
+    width: 16px;
+    height: 24px;
+    vertical-align: middle;
   }
   .setup__back, .setup__start {
-    font-size: 15px;
-    padding: 8px 14px;
+    font-size: 15px !important;
+    padding: 7px 14px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
   }
   .setup__body {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 0;
-    overflow: visible;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    padding: 0 0 24px 0 !important;
+    overflow: visible !important;
+    flex: none !important;
+    zoom: 1 !important;
+    width: 100% !important;
   }
   .setup__col {
-    gap: 14px;
-    min-height: auto;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+    min-height: auto !important;
   }
-  .setup .field {
-    padding: 10px 12px;
-    margin-bottom: 0;
-  }
-  .setup .player {
-    gap: 8px;
-    padding: 8px 10px;
-  }
+  .setup .field,
   .setup--solo .setup__col > .field {
-    flex: none;
+    width: 100% !important;
+    flex: none !important;
+    min-height: auto !important;
+    padding: 14px 12px !important;
+    margin: 0 !important;
+    border-radius: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
   }
   .setup--solo .field > :not(legend):not(.setup__tab) {
-    flex: none;
-    min-height: 44px;
+    flex: none !important;
+    min-height: auto !important;
+    padding: 6px 0 !important;
+    border-top: 1px solid #f0e3cb !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  .setup--solo .field > legend + :not(legend):not(.setup__tab),
+  .setup--solo .field > .setup__tab + :not(legend):not(.setup__tab) {
+    border-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  .setup__choices {
+    display: flex !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .setup__choices > .chip {
+    flex: 1 1 0 !important;
+    min-height: 44px !important;
+    min-width: 0 !important;
+    padding: 6px 4px !important;
+    font-size: 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .setup .toggles {
+    display: flex !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+  }
+  .setup .toggles > .setup__label {
+    min-width: 4.5em !important;
+    font-size: 14px !important;
+  }
+  .setup .toggles .chip {
+    flex: 1 1 auto !important;
+    min-height: 40px !important;
+    padding: 6px 12px !important;
+    font-size: 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .setup .player,
+  .setup--solo .player--single {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 14px 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .setup .player .input,
+  .setup--solo .player--single > .input {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 44px !important;
+    font-size: 17px !important;
+    padding: 8px 14px 8px 38px !important;
+    box-sizing: border-box !important;
+    border-radius: 999px !important;
+  }
+  .setup .colors,
+  .setup--solo .field.player--single > .colors {
+    display: flex !important;
+    justify-content: space-around !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 2px 0 !important;
+  }
+  .setup .swatch,
+  .setup--solo .player--single .swatch {
+    width: 40px !important;
+    height: 40px !important;
+    flex: none !important;
+  }
+  .setup .range,
+  .setup--solo .field.player--single > .range {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    gap: 10px !important;
+    font-size: 15px !important;
+  }
+  .setup .range input {
+    flex: 1 1 auto !important;
+    height: 12px !important;
+  }
+  .setup .range input::-webkit-slider-thumb {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .setup .sub {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .setup .switch {
+    font-size: 15px !important;
+    gap: 8px !important;
   }
 
-  /* 결과 화면 */
+  /* 3. 인게임 화면: 상단 HUD 및 나가기 버튼 */
+  .exit-btn {
+    font-size: 14px !important;
+    padding: 4px 10px !important;
+    border-radius: 999px !important;
+  }
+  .solo {
+    gap: 2px !important;
+    padding: 4px 8px !important;
+  }
+  .solo__time, .solo__score {
+    font-size: 18px !important;
+  }
+  .hud {
+    border-radius: 14px !important;
+    box-shadow: 0 0 0 4px var(--paper-2), 0 6px 10px var(--shadow) !important;
+  }
+
+  /* 4. 결과 화면 */
   .screen {
     padding: 20px 16px 32px;
   }
   .screen--center {
-    gap: 20px;
+    gap: 18px;
   }
   .title {
-    font-size: clamp(32px, 8vw, 44px);
-    margin: 0 0 10px;
+    font-size: clamp(30px, 8vw, 42px);
+    margin: 0 0 8px;
   }
   .big-result {
-    font-size: clamp(24px, 6.5vw, 32px);
+    font-size: clamp(22px, 6.5vw, 30px);
   }
   .btn--big {
-    font-size: 24px;
-    padding: 16px 32px;
+    font-size: 22px;
+    padding: 14px 28px;
+    border-radius: 999px;
   }
   .ranking {
     width: 100%;

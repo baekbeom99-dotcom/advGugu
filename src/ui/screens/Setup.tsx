@@ -38,8 +38,12 @@ export const SETUP_W = 1024;
 export const SETUP_H = 768;
 
 /** 기기 화면(w×h)에 맞춘 확대 비율과, 그 비율로 그렸을 때의 안쪽 크기 */
-export function fitSetup(w: number, h: number): { zoom: number; width: number; height: number } {
+export function fitSetup(w: number, h: number): { zoom: number; width?: string | number; height?: string | number } {
   if (w <= 0 || h <= 0) return { zoom: 1, width: SETUP_W, height: SETUP_H };
+  // 모바일 및 세로 화면(Portrait 또는 너비 768px 미만)에서는 브라우저 네이티브 100% 레이아웃 사용
+  if (h >= w || w < 768) {
+    return { zoom: 1, width: '100%', height: '100%' };
+  }
   const zoom = Math.min(w / SETUP_W, h / SETUP_H);
   return { zoom, width: w / zoom, height: h / zoom };
 }
@@ -246,7 +250,15 @@ export function Setup({ kind, onStart, onBack, records = EMPTY_RECORDS }: Props)
   const fit = useFitSetup();
   // 스크롤 없이 한 화면: 위 막대(처음으로·제목·시작) + 왼쪽(사람) / 오른쪽(규칙) 두 칸. 고를 것이 많은 화면은 촘촘하게 그린다
   return (
-    <main className={['setup', scale === 1 && 'setup--dense', solo && 'setup--solo'].filter(Boolean).join(' ')} style={{ '--setup-scale': scale, zoom: fit.zoom, width: fit.width, height: fit.height } as CSSProperties}>
+    <main
+      className={['setup', scale === 1 && 'setup--dense', solo && 'setup--solo'].filter(Boolean).join(' ')}
+      style={{
+        '--setup-scale': fit.zoom === 1 ? undefined : scale,
+        zoom: fit.zoom === 1 ? undefined : fit.zoom,
+        width: fit.width,
+        height: fit.height,
+      } as CSSProperties}
+    >
       <header className="setup__bar">
         <div className="setup__bar-side">
           <button className="btn setup__back" onClick={onBack}><Icon name="home" />처음으로</button>

@@ -22,8 +22,12 @@ export function skyPhase(correct: number): SkyPhase {
   return { body: k < SKY_STEPS ? 'sun' : 'moon', t: (k % SKY_STEPS) / (SKY_STEPS - 1) };
 }
 
-/** 반지름 R인 해의 중심. 수평선(화면 가운데 높이)에서 떠서 위로 반타원을 그린다 */
+/** 반지름 R인 해의 중심. 세로 화면에서는 상단 중앙에 안정적으로 위치하고, 가로 화면에서는 수평선에서 떠서 위로 반타원을 그린다 */
 export function skyArc(W: number, H: number, R: number, t: number): Ellipse {
+  const isPortrait = H >= W;
+  if (isPortrait) {
+    return { cx: W / 2, cy: H * 0.28, rx: R, ry: R };
+  }
   const m = SKY_MARGIN * Math.min(W, H);
   const a = W / 2 - m - R, b = H / 2 - m - R;
   const angle = Math.PI * t;
