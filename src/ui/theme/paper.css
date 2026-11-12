@@ -703,47 +703,47 @@ body::after {
 .mode-card__art svg { width: 76%; max-height: 90%; filter: drop-shadow(0 4px 4px rgba(70, 45, 25, .25)); }
 .mode-card__title { flex: none; font-weight: 400; font-size: min(3.6vh, 28px); line-height: 1.2; white-space: nowrap; }
 .mode-card__desc { font-size: min(2vh, 15px); line-height: 1.3; color: #7a5c48; text-align: center; flex: none; height: 2.6em; overflow: hidden; word-break: keep-all; }
-/* 혼자 하기 거북이 뒤통수: 머리가 평상시(Idle)에도 길쭉하게 뻗어 있고, 부드럽게 다양한 높이(빨간 선 부근)까지 움직임 */
+/* 혼자 하기 거북이 뒤통수: 평상시(Idle)에도 살짝 뻗어 있고, 최대로 올라와도 붉은 선(수면 파도선)까지만 올라오도록 제한 */
 .turtle-back__head {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: head-sway 9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  animation: head-sway 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 @keyframes head-sway {
   0% {
-    transform: translate(0, -32%) scaleY(1.4) rotate(0deg);
+    transform: translate(0, 0) scaleY(1.08) rotate(0deg);
   }
-  16% {
-    transform: translate(-3%, -68%) scaleY(1.75) rotate(-4deg);
+  18% {
+    transform: translate(-2%, -24%) scaleY(1.28) rotate(-3deg);
   }
-  32% {
-    transform: translate(1%, -28%) scaleY(1.35) rotate(2deg);
+  36% {
+    transform: translate(1%, -6%) scaleY(1.12) rotate(2deg);
   }
-  48% {
-    transform: translate(4%, -92%) scaleY(2.0) rotate(5deg);
+  52% {
+    transform: translate(3%, -42%) scaleY(1.42) rotate(4deg);
   }
-  64% {
-    transform: translate(-2%, -42%) scaleY(1.5) rotate(-2deg);
+  68% {
+    transform: translate(-2%, -18%) scaleY(1.22) rotate(-2deg);
   }
-  78% {
-    transform: translate(-4%, -115%) scaleY(2.25) rotate(-6deg);
+  82% {
+    transform: translate(-3%, -50%) scaleY(1.50) rotate(-4deg); /* 붉은 선에 딱 닿는 최고 높이 */
   }
-  90% {
-    transform: translate(2%, -50%) scaleY(1.58) rotate(3deg);
+  92% {
+    transform: translate(1%, -12%) scaleY(1.16) rotate(2deg);
   }
   100% {
-    transform: translate(0, -32%) scaleY(1.4) rotate(0deg);
+    transform: translate(0, 0) scaleY(1.08) rotate(0deg);
   }
 }
-/* 맞히면 뒤통수와 목이 빨간 선을 훌쩍 넘는 최고 높이로 쑥 솟구치며 신나게 환호 */
+/* 맞히면 신나게 들썩이지만 붉은 선을 넘지 않도록 제한 */
 .turtle-back__head.is-cheer {
-  animation: head-cheer 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: head-cheer 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 @keyframes head-cheer {
-  0% { transform: translate(0, -32%) scaleY(1.4) rotate(0deg); }
-  40% { transform: translate(2%, -135%) scale(1.18) scaleY(2.45) rotate(6deg); }
-  70% { transform: translate(-2%, -65%) scale(1.08) scaleY(1.75) rotate(-3deg); }
-  100% { transform: translate(0, -32%) scaleY(1.4) rotate(0deg); }
+  0% { transform: translate(0, 0) scaleY(1.08) rotate(0deg); }
+  45% { transform: translate(1%, -50%) scale(1.08) scaleY(1.50) rotate(4deg); }
+  75% { transform: translate(-1%, -20%) scale(1.04) scaleY(1.25) rotate(-2deg); }
+  100% { transform: translate(0, 0) scaleY(1.08) rotate(0deg); }
 }
 
 /* ---------- 정보 칸 촘촘하게 (2026-11-10): 줄 간격과 여백을 줄인다 ---------- */
