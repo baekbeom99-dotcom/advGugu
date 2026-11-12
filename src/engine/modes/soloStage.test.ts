@@ -8,7 +8,9 @@ const stageCfg = (stage: number) => testConfig({ mode: 'soloStage', stage, playe
 
 test('스테이지 수치', () => {
   expect(stageParams(1, 21)).toEqual({ target: 7, cardSize: 3, timeMs: 20000 });
-  expect(stageParams(10, 21)).toEqual({ target: 16, cardSize: 6, timeMs: 20000 });
+  expect(stageParams(2, 21)).toEqual({ target: 8, cardSize: 3, timeMs: 20000 });
+  expect(stageParams(3, 21)).toEqual({ target: 9, cardSize: 4, timeMs: 20000 });
+  expect(stageParams(10, 21)).toEqual({ target: 16, cardSize: 7, timeMs: 20000 });
   expect(stageParams(20, 21)).toEqual({ target: 20, cardSize: 8, timeMs: 20000 });
   expect(stageParams(20, 14)).toMatchObject({ cardSize: 7 });
 });
@@ -18,9 +20,9 @@ test('별 기준', () => {
 });
 test('스테이지 카드 크기를 쓴다 (첫 라운드와 다음 라운드 모두)', () => {
   let s = createGame(stageCfg(10), TEST_POOL, MODES);
-  expect(s.round.cards[0]).toHaveLength(6);
+  expect(s.round.cards[0]).toHaveLength(7);
   s = reduce(s, { type: 'TAP', player: 0, symbol: s.round.answers[0], round: 0 }, MODES).state;
-  expect(s.round.cards[0]).toHaveLength(6);
+  expect(s.round.cards[0]).toHaveLength(7);
 });
 test('목표를 채우면 클리어하고 별을 받으며, 이후 TICK으로 실패하지 않는다', () => {
   let s = createGame(stageCfg(1), TEST_POOL, MODES);

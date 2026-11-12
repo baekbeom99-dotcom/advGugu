@@ -15,7 +15,7 @@ export function stagePenaltyMs(stage: number): number {
 export function stageParams(n: number, poolSize: number): { target: number; cardSize: number; timeMs: number } {
   return {
     target: Math.min(20, 6 + n),
-    cardSize: Math.min(MAX_CARD_SIZE, maxCardSize(poolSize), 3 + Math.floor((n - 1) / 3)),
+    cardSize: Math.min(MAX_CARD_SIZE, maxCardSize(poolSize), 3 + Math.floor((n - 1) / 2)),
     timeMs: STAGE_TIME_MS,
   };
 }
